@@ -1,0 +1,12 @@
+# 在 NAS 上同步 Garmin Connect。数据库和登录令牌都落在 ./home，不映射任何端口。
+services:
+  garmindb:
+    build: .
+    image: garmin-nas-garmindb
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      # 家目录整个挂出来：配置、登录令牌、HealthData 都在这里。
+      - ./home:/root
+    stdin_open: true
+    tty: true

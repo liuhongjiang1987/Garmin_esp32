@@ -1,0 +1,43 @@
+# 密钥与本地环境
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# macOS / IDE
+.DS_Store
+.cursor/
+.vscode/
+.idea/
+.clangd
+.cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ESP-IDF / 小智固件构建产物（可由组件管理器与 idf.py 重新生成）
+xiaozhi-esp32-main/build/
+xiaozhi-esp32-main/managed_components/
+xiaozhi-esp32-main/tmp/
+xiaozhi-esp32-main/dist/
+xiaozhi-esp32-main/releases/
+xiaozhi-esp32-main/sdkconfig
+xiaozhi-esp32-main/sdkconfig.old
+xiaozhi-esp32-main/dependencies.lock
+xiaozhi-esp32-main/main/assets/lang_config.h
+xiaozhi-esp32-main/main/mmap_generate_emoji.h
+xiaozhi-esp32-main/mmap_generate_*.h
+*.bin
+
+# 本地数据缓存（如需共享样例另开目录）
+agent/data/*.db
+agent/data/*.sqlite*

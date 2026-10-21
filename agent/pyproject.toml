@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swim-coach-agent"
+version = "0.1.0"
+description = "LangChain-based swim coach agent for Garmin private analytics"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "deepagents>=0.7.22",
+  "langchain>=1.0.0",
+  "langgraph>=0.2.0",
+  "langchain-openai>=0.3.0",
+  "pydantic>=2.7.0",
+  "python-dotenv>=1.0.1",
+  "fitdecode>=0.10.0",
+  "fastapi>=0.115.0",
+  "uvicorn>=0.32.0",
+]
+
+[project.scripts]
+swim-coach = "src.cli:main"
+
+[tool.setuptools]
+packages = ["src"]
+

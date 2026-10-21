@@ -1,0 +1,21 @@
+# 教练接口。只映射局域网端口，不和 GarminDB 同步镜像放在一起。
+services:
+  coach:
+    build: .
+    image: garmin-nas-coach
+    environment:
+      TZ: Asia/Shanghai
+      COACH_BIND: 0.0.0.0
+      COACH_PORT: "8765"
+      COACH_DB_PATH: /data/coach.db
+      COACH_LOG_PATH: /data/logs/coach.log
+      SWIM_EVIDENCE_DB: /evidence/swim_evidence.db
+    env_file:
+      - coach.env
+    volumes:
+      - ./data/coach.db:/data/coach.db
+      - ./data/logs:/data/logs
+      - ../garmindb/home/HealthData/DBs/swim_evidence.db:/evidence/swim_evidence.db:ro
+    ports:
+      - "8765:8765"
+    restart: unless-stopped

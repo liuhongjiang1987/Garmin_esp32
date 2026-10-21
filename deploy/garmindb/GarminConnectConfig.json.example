@@ -1,0 +1,52 @@
+{
+    "db": {
+        "type": "sqlite"
+    },
+    "garmin": {
+        "domain": "garmin.com"
+    },
+    "credentials": {
+        "user": "你的佳明账号邮箱",
+        "secure_password": false,
+        "password": "只写在NAS上，不要提交到仓库",
+        "password_file": null
+    },
+    "data": {
+        "weight_start_date": "01/01/2024",
+        "sleep_start_date": "01/01/2024",
+        "rhr_start_date": "01/01/2024",
+        "hrv_start_date": "01/01/2024",
+        "monitoring_start_date": "01/01/2024",
+        "download_latest_activities": 25,
+        "download_all_activities": 1000
+    },
+    "directories": {
+        "relative_to_home": true,
+        "base_dir": "HealthData",
+        "mount_dir": "/Volumes/GARMIN"
+    },
+    "enabled_stats": {
+        "monitoring": true,
+        "steps": true,
+        "itime": true,
+        "sleep": true,
+        "rhr": true,
+        "hrv": true,
+        "weight": true,
+        "activities": true
+    },
+    "course_views": {
+        "steps": []
+    },
+    "modes": {},
+    "activities": {
+        "display": []
+    },
+    "settings": {
+        "metric": true,
+        "default_display_activities": ["walking", "running", "cycling", "swimming"]
+    },
+    "checkup": {
+        "look_back_days": 90
+    }
+}
