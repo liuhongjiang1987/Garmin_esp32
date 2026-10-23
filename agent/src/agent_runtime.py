@@ -60,8 +60,9 @@ def build_system_prompt() -> str:
         "用户只是打招呼或叫你的名字时，只回一句简短问候，不要查数据库，也不要提训练数字。"
         "用户说了一长段，但没有点名配速、距离、SWOLF、划次、场次或五个主题之一时，不要调用任何工具，用一句话请他指定要查什么。"
         "只回答刚刚这一句。不要把以前的问题和回答再念一遍。"
-        "需要训练数字时，先把意图写成一条查询任务，再调用一次 ask_swim_database。"
-        "任务写清场次范围、泳姿和指标，不要把用户原话整段传进去，也不要自己写 SQL。"
+        "需要训练数字时，第一步就是调用 ask_swim_database，不要先对用户说话。"
+        "工具参数写成一条查询任务，例如「最近一场的距离、配速、SWOLF」。拿到工具返回后再开口。"
+        "禁止只说「我来查一下」「稍等」就结束。不要自己写 SQL。"
         "档案工具另外挂载。不要调用 task、write_file、edit_file、delete、execute。"
         "下面是 swim-coach 技能全文，每一轮都必须遵守。主题参考卡按其中的路径用 read_file 按需读取，不要把参考卡当成已经加载。\n\n"
         + _skill_body()
@@ -129,6 +130,33 @@ def _turn_input(user_text: str) -> dict[str, Any]:
     return {"messages": [{"role": "user", "content": user_text}]}
 
 
+def _needs_swim_numbers(user_text: str) -> bool:
+    """判断这句是否在要训练数字，需要强制走查库工具。"""
+    # 逐行注释：纯打招呼不查库。
+    compact = re.sub(r"[\s\W_]+", "", user_text, flags=re.UNICODE)
+    greetings = {"你好小智", "你好", "您好", "在吗", "嗨", "哈喽", "hello", "hi", "小智"}
+    if compact.lower() in greetings:
+        return False
+    # 逐行注释：这些词出现时，没有 ask_swim_database 就容易空口承诺或编造。
+    cues = (
+        "距离", "配速", "swolf", "SWOLF", "效率", "划次", "划水", "最近一场", "最近三",
+        "最近几", "游了", "表现", "多少米", "心率", "休息", "前后半", "自由泳", "蛙泳",
+        "仰泳", "蝶泳", "查一下", "查询", "多远", "多久", "趋势", "耐力", "负荷",
+    )
+    return any(cue in user_text for cue in cues)
+
+
+def _with_tool_nudge(user_text: str) -> str:
+    """需要数字时在用户消息后追加强制调工具提示，避免只说「我来查一下」。"""
+    # 逐行注释：提示只给模型看，设备侧不会当作用户原话播报。
+    if not _needs_swim_numbers(user_text):
+        return user_text
+    return (
+        user_text
+        + "\n\n（系统：本轮必须先调用 ask_swim_database，再根据返回数字回答。禁止只说我来查一下，禁止编造数字。）"
+    )
+
+
 def _thread_config(thread_id: str) -> dict[str, Any]:
     """构造带 thread_id 的调用配置，用于短期记忆续接。"""
     # 逐行注释：限制图的步数，避免一句空泛的长话把工具链跑到连接超时。
@@ -139,7 +167,7 @@ def ask_agent(agent: Any, user_text: str, thread_id: str = DEFAULT_THREAD_ID) ->
     """同步调用 Agent（带会话线程）。"""
     # 逐行注释：技能已在系统提示词中，这里只追加用户消息。
     return agent.invoke(
-        _turn_input(user_text),
+        _turn_input(_with_tool_nudge(user_text)),
         _thread_config(thread_id),
     )
 
@@ -305,8 +333,8 @@ def _is_live_coach_token(chunk: Any) -> bool:
 
 def ask_agent_stream(agent: Any, user_text: str, thread_id: str = DEFAULT_THREAD_ID) -> Iterator[str]:
     """流式调用 Agent，仅产出可展示的 AI 文本片段（过滤工具消息）。"""
-    # 逐行注释：技能全文随系统提示词每轮下发，这里只传用户消息。
-    input_payload = _turn_input(user_text)
+    # 逐行注释：需要数字时追加强制调工具提示，避免空口承诺。
+    input_payload = _turn_input(_with_tool_nudge(user_text))
     # 逐行注释：累积已看到的文本，用于识别重复和英文摘要。
     spoken = ""
     # 逐行注释：标题可能被拆成多个片段，先暂存，确认不是摘要后再送出。

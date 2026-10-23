@@ -76,6 +76,21 @@ CREATE TABLE IF NOT EXISTS workout_plans (
   plan_json TEXT NOT NULL,
   created_at TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS css_anchors (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  athlete_id TEXT NOT NULL,
+  css_seconds_per_100m REAL NOT NULL,
+  css_pace_text TEXT NOT NULL,
+  test_method TEXT NOT NULL,
+  source TEXT NOT NULL DEFAULT '自测',
+  test_date TEXT NOT NULL,
+  retest_due TEXT NOT NULL,
+  zone_json TEXT NOT NULL,
+  note TEXT,
+  created_at TEXT NOT NULL,
+  is_current INTEGER NOT NULL DEFAULT 1
+);
 """
 
 

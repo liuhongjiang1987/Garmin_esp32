@@ -191,7 +191,11 @@ def _execute_select(query: str) -> str:
         columns = [item[0] for item in cursor.description or []]
         fetched = cursor.fetchmany(_MAX_ROWS + 1)
     except sqlite3.Error as exc:
-        return f"Error: {exc}"
+        # 逐行注释：泳姿列不在 sessions 上，把常见误用直接写进错误，方便重写。
+        hint = ""
+        if "swim_stroke_hint" in str(exc):
+            hint = " swim_stroke_hint 只在 swim_laps，不在 swim_sessions。"
+        return f"Error: {exc}.{hint}"
     finally:
         connection.close()
     # 逐行注释：行数过多时让子代理改成聚合，不把整表交回教练。
@@ -233,15 +237,20 @@ _SQL_SYSTEM_PROMPT = """
 你只负责把查询任务写成一条 SQLite 语句。只输出 SQL，不要解释，不要中文结论。
 
 表已经固定，不要再查表结构。
-swim_sessions 一场一行：activity_id, start_time, distance_m, avg_pace_s, avg_pace_text, avg_swolf, avg_hr, max_hr, total_strokes, rest_time_s, rest_ratio。
-整场配速用 avg_pace_text，不要用各圈平均代替。
-swim_laps 一圈一行：activity_id, lap_index, distance_m, elapsed_s, pace_per_100m_s, pace_text, avg_hr, max_hr, total_strokes, swim_stroke_hint, swolf_derived, is_rest_lap。
-单圈配速用 pace_text。elapsed_s 是这一圈用了多少秒。pace_per_100m_s 是秒/100米，不要把它当成这一圈的用时。
-swim_stroke_hint 的值包括 自由泳、蛙泳、仰泳。
-total_strokes 已是这一圈大约 30 米的划次。要平均就 AVG，不要再除以 100/30 或 3.33。
 
-前后半：先按要求的泳姿过滤，再用 ROW_NUMBER() OVER (ORDER BY lap_index) 和 COUNT(*) OVER ()，n <= total_n / 2 为前半。不要用固定的 lap_index 当中点，也不要把 swim_sessions 的平均值抄进前后半。
-多场按 start_time 从早到晚。只选任务要的列。最多 30 行。只写一条 SELECT 或 WITH。
+swim_sessions 一场一行，只有整场摘要：
+activity_id, start_time, distance_m, avg_pace_s, avg_pace_text, avg_swolf, avg_hr, max_hr, total_strokes, rest_time_s, rest_ratio。
+这张表没有泳姿字段。整场配速用 avg_pace_text。
+
+swim_laps 一圈一行：
+activity_id, lap_index, distance_m, elapsed_s, pace_per_100m_s, pace_text, avg_hr, max_hr, total_strokes, swim_stroke_hint, swolf_derived, is_rest_lap。
+泳姿只在 swim_laps.swim_stroke_hint（自由泳、蛙泳、仰泳）。单圈配速用 pace_text。elapsed_s 是这一圈用时秒数。pace_per_100m_s 是秒/100米，不要当成这一圈用时。total_strokes 已是约 30 米的划次，AVG 即可，不要再除。
+
+查询规则：
+- 「最近一场」不限泳姿：从 swim_sessions ORDER BY start_time DESC LIMIT 1 取距离、配速、SWOLF。
+- 「最近一场自由泳」：用 swim_laps 按 swim_stroke_hint='自由泳' 找到最新 activity_id，再 JOIN swim_sessions 取整场摘要；或只聚合该场自由泳圈。禁止在 swim_sessions 上写 swim_stroke_hint。
+- 前后半：先按泳姿过滤 swim_laps，再用 ROW_NUMBER() OVER (ORDER BY lap_index) 与 COUNT(*) OVER ()，n <= total_n / 2 为前半。
+- 多场按 start_time 从早到晚。只选任务要的列。最多 30 行。只写一条 SELECT 或 WITH。
 """.strip()
 
 
@@ -307,10 +316,10 @@ def build_swim_sql_tool(model: BaseChatModel, repo: SwimRepository):
 
     @tool
     def ask_swim_database(question: str) -> str:
-        """按一条明确的查询任务查游泳数据。场次、配速、SWOLF、泳姿、前后半程、单圈筛选都用这个工具。
+        """查游泳训练数字。场次、距离、配速、SWOLF、泳姿、前后半程、单圈都用这个工具。需要任何训练数字时必须调用。
 
         Args:
-            question: 查询任务。写清场次范围、泳姿和要的指标，不要传用户原话，也不要写 SQL。
+            question: 查询任务，写清场次范围、泳姿和要的指标。例如「最近一场的距离、配速、SWOLF」。不要写 SQL。
         """
         # 逐行注释：函数一进入就通知设备显示正在查询，不等 SQL 写完。
         from src.agent_runtime import notify_query_started

@@ -20,6 +20,8 @@ from src.tools import build_tools
 def build_repo() -> SwimRepository:
     """构建仓库对象。"""
     settings = load_settings()
+    # 逐行注释：已有 coach.db 也要补齐新表（如 css_anchors），避免 OperationalError。
+    init_coach_db(settings.coach_db_path)
     return SwimRepository(
         DbPaths(
             coach_db=settings.coach_db_path,
@@ -121,56 +123,148 @@ def cmd_chat() -> None:
         sys.stdout.flush()
 
 
+_VALIDATE_CASES = [
+    # ── M1 效率纠偏 ──
+    {
+        "id": "M1-01",
+        "tag": "M1",
+        "question": "最近一场自由泳效率怎么样？",
+        "must_not_contain": ["越小越好"],
+        "note": "不应无条件说越小越好",
+    },
+    {
+        "id": "M1-02",
+        "tag": "M1",
+        "question": "最近三场效率有没有进步？",
+        "should_contain_any": ["同", "对照", "对比", "相近配速"],
+        "note": "谈进步时应提到对照条件",
+    },
+    {
+        "id": "M1-03",
+        "tag": "M1",
+        "question": "我的 SWOLF 比上次低了，但感觉配速变慢了，是进步了吗？",
+        "should_contain_any": ["刷", "滑行", "过长", "试探", "再测", "相近配速"],
+        "note": "配速变慢 SWOLF 变好时应试探刷分",
+    },
+    # ── M1 查询机制 ──
+    {
+        "id": "M1-04",
+        "tag": "M1",
+        "question": "查询我最近三次游泳的总体表现。",
+        "must_not_contain": ["我来帮你查一下"],
+        "note": "应实际调用工具查库，不能只回一句承诺",
+    },
+    # ── M2 CSS 无锚点 ──
+    {
+        "id": "M2-01",
+        "tag": "M2",
+        "question": "我该怎么练？",
+        "should_contain_any": ["CSS", "临界", "测试", "400", "配速"],
+        "note": "无锚点时应引导测试或自报 CSS",
+    },
+    {
+        "id": "M2-02",
+        "tag": "M2",
+        "question": "什么是 CSS？",
+        "should_contain_any": ["临界", "强度", "配速", "锚"],
+        "note": "应简要解释 CSS 概念",
+    },
+    # ── M2 CSS 存锚点 ──
+    {
+        "id": "M2-03",
+        "tag": "M2",
+        "question": "我的 CSS 大概 2 分钟每 100 米，400+200 自测的。",
+        "should_contain_any": ["Z", "区", "有氧", "阈值"],
+        "note": "应保存锚点并报出训练区",
+    },
+    # ── M2 三条处方 ──
+    {
+        "id": "M2-04",
+        "tag": "M2",
+        "question": "展开讲讲这周怎么练。",
+        "should_contain_any": ["复测", "周"],
+        "must_not_contain": ["第四条", "第五条"],
+        "note": "最多三条组次，必须提复测",
+    },
+    # ── 基础功能 ──
+    {
+        "id": "BASE-01",
+        "tag": "基础",
+        "question": "你好小智",
+        "must_not_contain": ["ask_swim_database", "SQL", "SELECT"],
+        "note": "打招呼不查库",
+    },
+    {
+        "id": "BASE-02",
+        "tag": "基础",
+        "question": "最近一场游了多远？",
+        "should_contain_any": ["米", "距离"],
+        "note": "简单数据查询应正常返回",
+    },
+]
+
+
 def cmd_validate() -> None:
-    """执行最小验收问句回归。"""
+    """执行 M1/M2 验收回归。每条打印通过或失败。"""
     settings = load_settings()
     repo = build_repo()
     tools = build_tools(repo)
-    questions = [
-        "今天总共游了多远、多久？",
-        "主泳姿是什么？",
-        "哪一组掉速最明显？",
-        "休息时心率回落怎么样？",
-        "给我一句今天的训练结论。",
-    ]
+
     try:
         agent = create_coach_agent(settings=settings, tools=tools, repo=repo)
-        for q in questions:
-            result = ask_agent(agent, q)
-            messages = result.get("messages", [])
-            final_text = ""
-            for msg in reversed(messages):
-                content = getattr(msg, "content", "")
-                if isinstance(content, str) and content:
-                    final_text = content
-                    break
-            print(f"[Q] {q}")
-            print(f"[A] {final_text}")
-            print("-" * 40)
     except Exception as exc:
-        print("[WARN] 在线LLM回归失败，切换到离线证据回归。")
-        print(f"[WARN] {type(exc).__name__}: {exc}")
-        activity_id = repo.get_latest_swim_activity_id() or "638297383"
-        summary = repo.get_activity_summary(activity_id)
-        evidence = repo.get_evidence(activity_id)
-        checks = {
-            "has_summary": summary is not None,
-            "has_evidence": evidence is not None,
-            "has_labels": bool(evidence and evidence.get("l2", {}).get("labels")),
-            "distance_positive": bool(evidence and evidence.get("l0", {}).get("total_distance_m", 0) > 0),
-        }
-        consistency = (evidence or {}).get("consistency_check", {})
-        print(
-            json.dumps(
-                {
-                    "activity_id": activity_id,
-                    "checks": checks,
-                    "consistency_check": consistency,
-                },
-                ensure_ascii=False,
-                indent=2,
-            )
-        )
+        print(f"[FATAL] 创建教练失败: {type(exc).__name__}: {exc}")
+        return
+
+    thread_id = f"validate-{uuid.uuid4().hex[:8]}"
+    passed = 0
+    failed = 0
+    errors: list[str] = []
+
+    for case in _VALIDATE_CASES:
+        cid = case["id"]
+        q = case["question"]
+        print(f"\n{'='*50}")
+        print(f"[{cid}] {case['tag']} | {case['note']}")
+        print(f"  Q: {q}")
+
+        try:
+            answer = ""
+            for token in ask_agent_stream(agent, q, thread_id=thread_id):
+                answer += token
+            print(f"  A: {answer[:300]}")
+        except Exception as exc:
+            print(f"  ✗ 调用失败: {type(exc).__name__}: {exc}")
+            failed += 1
+            errors.append(f"{cid}: 调用失败")
+            continue
+
+        # 检查 must_not_contain
+        fail_reasons: list[str] = []
+        for bad in case.get("must_not_contain", []):
+            if bad in answer:
+                fail_reasons.append(f"不应包含「{bad}」")
+
+        # 检查 should_contain_any
+        keywords = case.get("should_contain_any", [])
+        if keywords and not any(kw in answer for kw in keywords):
+            fail_reasons.append(f"应包含其中之一: {keywords}")
+
+        if fail_reasons:
+            for r in fail_reasons:
+                print(f"  ✗ {r}")
+            failed += 1
+            errors.append(f"{cid}: {'; '.join(fail_reasons)}")
+        else:
+            print(f"  ✓ 通过")
+            passed += 1
+
+    print(f"\n{'='*50}")
+    print(f"结果: {passed} 通过, {failed} 失败, 共 {len(_VALIDATE_CASES)} 条")
+    if errors:
+        print("失败项:")
+        for e in errors:
+            print(f"  - {e}")
 
 
 def main() -> None:

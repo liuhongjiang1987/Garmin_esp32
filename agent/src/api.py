@@ -162,6 +162,10 @@ def create_app() -> FastAPI:
     """启动时建好教练，之后每次请求只传入问句。"""
     # 逐行注释：读取模型、证据库和教练库路径。
     settings = load_settings()
+    # 逐行注释：已有库也补齐新表，避免 CSS 工具碰到 no such table。
+    from src.db.schema import init_coach_db
+
+    init_coach_db(settings.coach_db_path)
     # 逐行注释：档案仍在本机 coach.db，训练数字在 NAS 的 swim_evidence.db。
     repo = SwimRepository(
         DbPaths(

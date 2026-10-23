@@ -263,3 +263,72 @@ class SwimRepository:
             rows = conn.execute(sql, (athlete_id, limit)).fetchall()
         return [dict(row) for row in rows]
 
+    # ── CSS 锚点 ──
+
+    def save_css_anchor(self, athlete_id: str, anchor: dict[str, Any]) -> None:
+        """保存一条新的 CSS 锚点，并把该运动员的旧锚点标为非当前。"""
+        with self._connect() as conn:
+            # 把以前的标为非当前
+            conn.execute(
+                "UPDATE css_anchors SET is_current = 0 WHERE athlete_id = ? AND is_current = 1",
+                (athlete_id,),
+            )
+            conn.execute(
+                """
+                INSERT INTO css_anchors(
+                    athlete_id, css_seconds_per_100m, css_pace_text, test_method,
+                    source, test_date, retest_due, zone_json, note, created_at, is_current
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
+                """,
+                (
+                    athlete_id,
+                    anchor["css_seconds_per_100m"],
+                    anchor["css_pace_text"],
+                    anchor["test_method"],
+                    anchor.get("source", "自测"),
+                    anchor["test_date"],
+                    anchor["retest_due"],
+                    json.dumps(anchor.get("zones", {}), ensure_ascii=False),
+                    anchor.get("note"),
+                    datetime.utcnow().isoformat(),
+                ),
+            )
+            conn.commit()
+
+    def get_current_css_anchor(self, athlete_id: str) -> dict[str, Any] | None:
+        """读取当前生效的 CSS 锚点。"""
+        sql = """
+        SELECT css_seconds_per_100m, css_pace_text, test_method, source,
+               test_date, retest_due, zone_json, note, created_at
+        FROM css_anchors
+        WHERE athlete_id = ? AND is_current = 1
+        ORDER BY created_at DESC
+        LIMIT 1
+        """
+        with self._connect() as conn:
+            row = conn.execute(sql, (athlete_id,)).fetchone()
+        if row is None:
+            return None
+        result = dict(row)
+        result["zones"] = json.loads(result.pop("zone_json"))
+        return result
+
+    def list_css_history(self, athlete_id: str, limit: int = 10) -> list[dict[str, Any]]:
+        """读取 CSS 锚点历史，最新在前。"""
+        sql = """
+        SELECT css_seconds_per_100m, css_pace_text, test_method, source,
+               test_date, retest_due, zone_json, note, created_at, is_current
+        FROM css_anchors
+        WHERE athlete_id = ?
+        ORDER BY created_at DESC
+        LIMIT ?
+        """
+        with self._connect() as conn:
+            rows = conn.execute(sql, (athlete_id, limit)).fetchall()
+        results = []
+        for row in rows:
+            item = dict(row)
+            item["zones"] = json.loads(item.pop("zone_json"))
+            results.append(item)
+        return results
+

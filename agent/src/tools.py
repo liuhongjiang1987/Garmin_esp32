@@ -1,7 +1,9 @@
-# 模块级说明：定义主教练可调用的档案与采访工具。训练数字不在这里查，由 SQL 子代理负责。
+# 模块级说明：定义主教练可调用的档案、采访和 CSS 工具。训练数字不在这里查，由 SQL 子代理负责。
 
 from __future__ import annotations
 
+import math
+from datetime import date, timedelta
 from typing import Any
 
 from langchain.tools import tool
@@ -226,10 +228,104 @@ def build_tools(repo: SwimRepository):
             "ready_to_answer": has_objective_data,
         }
 
+    # ── CSS 锚点工具 ──
+
+    def _pace_text(seconds: float) -> str:
+        """把秒/100米写成可直接念的分秒。"""
+        total = int(round(seconds))
+        return f"{total // 60}分{total % 60:02d}秒/100米"
+
+    def _build_zones(css_s: float) -> dict[str, Any]:
+        """根据 CSS 秒/100米计算五个训练区的配速范围。"""
+        # 逐行注释：默认秒差来自专家建议，不是医疗处方，可按体感微调。
+        return {
+            "Z1_有氧恢复": {"slow": _pace_text(css_s + 25), "fast": _pace_text(css_s + 15), "desc": "轻松放松，比 CSS 慢 15~25 秒"},
+            "Z2_有氧技术": {"slow": _pace_text(css_s + 15), "fast": _pace_text(css_s + 8), "desc": "稳定有氧，比 CSS 慢 8~15 秒"},
+            "Z3_阈值": {"slow": _pace_text(css_s + 2), "fast": _pace_text(css_s - 2), "desc": "接近 CSS，正负 2 秒"},
+            "Z4_短距质量": {"slow": _pace_text(css_s - 3), "fast": _pace_text(css_s - 8), "desc": "比 CSS 快 3~8 秒"},
+            "Z5_冲刺": {"slow": _pace_text(css_s - 8), "fast": "", "desc": "全力冲刺，短距离"},
+        }
+
+    @tool(parse_docstring=True)
+    def save_css_anchor(
+        css_seconds_per_100m: float,
+        test_method: str,
+        source: str = "自测",
+        test_date: str | None = None,
+        retest_weeks: int = 6,
+        note: str | None = None,
+    ) -> dict[str, Any]:
+        """保存用户的 CSS（临界游速）锚点，同时自动算出五个训练区和复测日期。
+
+        复测后必须再次调用本工具更新锚点，区和组次会一起更新。不要只改数字不改区。
+
+        Args:
+            css_seconds_per_100m: 临界游速，秒/100米。
+            test_method: 测法，例如「400+200 自测」或「自报」。
+            source: 来源，取值「自测」或「自报」。标明非手表自动官方值。
+            test_date: 测试日期，格式 YYYY-MM-DD。不传则用今天。
+            retest_weeks: 建议复测间隔周数，默认 6。
+            note: 补充说明。
+        """
+        # 逐行注释：解析测试日期，缺省用今天。
+        dt = date.fromisoformat(test_date) if test_date else date.today()
+        # 逐行注释：计算复测到期日。
+        retest_due = (dt + timedelta(weeks=retest_weeks)).isoformat()
+        # 逐行注释：计算五个训练区配速范围。
+        zones = _build_zones(css_seconds_per_100m)
+        anchor = {
+            "css_seconds_per_100m": css_seconds_per_100m,
+            "css_pace_text": _pace_text(css_seconds_per_100m),
+            "test_method": test_method,
+            "source": source,
+            "test_date": dt.isoformat(),
+            "retest_due": retest_due,
+            "zones": zones,
+            "note": note,
+        }
+        # 逐行注释：写入数据库，旧锚点自动标为非当前。
+        repo.save_css_anchor("default", anchor)
+        return {"ok": True, "anchor": anchor}
+
+    @tool(parse_docstring=True)
+    def query_css_anchor() -> dict[str, Any]:
+        """查询当前生效的 CSS 锚点、训练区和复测日期。
+
+        点名展开 CSS 或表现主题时先调用这个。没有锚点时返回提示。
+
+        Args:
+        """
+        # 逐行注释：读取当前锚点。
+        current = repo.get_current_css_anchor("default")
+        if current is None:
+            return {
+                "ok": True,
+                "has_anchor": False,
+                "hint": "还没有 CSS 锚点。可以引导用户做一次 400+200 测试或自报一个参考配速。",
+            }
+        # 逐行注释：检查是否到了复测窗。
+        due = current.get("retest_due", "")
+        overdue = due and due <= date.today().isoformat()
+        return {
+            "ok": True,
+            "has_anchor": True,
+            "css_pace": current["css_pace_text"],
+            "css_seconds": current["css_seconds_per_100m"],
+            "test_method": current["test_method"],
+            "source": current["source"],
+            "test_date": current["test_date"],
+            "retest_due": due,
+            "retest_overdue": overdue,
+            "zones": current["zones"],
+            "note": current.get("note"),
+        }
+
     # 逐行注释：知识卡不在这里。模型用 read_file 读取技能 references。
     return [
         query_athlete_state,
         assess_readiness,
         save_profile_fields,
         save_subjective_note,
+        save_css_anchor,
+        query_css_anchor,
     ]
