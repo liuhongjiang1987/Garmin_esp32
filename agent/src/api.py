@@ -15,7 +15,7 @@ from fastapi import FastAPI, Header, HTTPException
 from fastapi.responses import Response, StreamingResponse
 from pydantic import BaseModel, Field
 
-from src.agent_runtime import (
+from src.coach_agent import (
     COACH_WAIT_LINE,
     ask_agent_stream,
     bind_query_notifier,

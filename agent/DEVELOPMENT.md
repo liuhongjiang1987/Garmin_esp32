@@ -24,8 +24,9 @@ python -m src.cli chat
 ## 代码入口
 
 - `src/cli.py`：`init`、`analytics`、`chat`、`validate`
-- `src/agent_runtime.py`：Deep Agents 主教练、流式输出
-- `src/sql_agent.py`：SQL 子代理
+- `src/coach_agent.py`：Deep Agents 主教练、短系统提示、流式输出（Skills 按需加载）
+- `src/sql_agent.py`：薄 SQL 子代理（固定两视图 + 安全门）
+- `skills/swim-coach/`：主循环 + references（回合预算 / 意图 / 可查口径 / 口语 / 主题卡）
 - `src/tools.py`：档案和采访工具
 - `src/analytics/pipeline.py`：把一场 CSV 算成 evidence 并落库
 

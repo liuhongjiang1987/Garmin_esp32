@@ -9,7 +9,7 @@ import sys
 
 import uuid
 
-from src.agent_runtime import ask_agent, ask_agent_stream, create_coach_agent
+from src.coach_agent import ask_agent, ask_agent_stream, create_coach_agent
 from src.analytics.pipeline import run_activity_analytics
 from src.config import load_settings
 from src.db.schema import init_coach_db

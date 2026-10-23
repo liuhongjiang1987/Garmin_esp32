@@ -145,6 +145,8 @@ def build_tools(repo: SwimRepository):
     ) -> dict[str, Any]:
         """更新运动员档案里本次新提供的字段，未传入的字段保持原值。
 
+        用户说出或更正泳池长度、周次、目标、年龄等时必须调用，不要只口头确认。
+
         Args:
             age: 年龄。
             gender: 性别。
@@ -152,7 +154,7 @@ def build_tools(repo: SwimRepository):
             weight_kg: 体重，单位千克。
             weekly_sessions: 每周可训练次数。
             goal: 训练目标。
-            typical_pool_length_m: 常用泳池长度，单位米。
+            typical_pool_length_m: 常用泳池长度，单位米。用户说 25 米池、30 米池、50 米池时写入对应数字。
             blood_pressure_systolic: 收缩压。
             blood_pressure_diastolic: 舒张压。
             injury_notes: 伤病或限制说明。

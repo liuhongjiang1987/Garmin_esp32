@@ -2,8 +2,8 @@
 
 第一版游泳教练。主教练负责中文口语、采访和主题建议；训练数字由 SQL 子代理按问题查询。
 
-- 技能：`skills/swim-coach/SKILL.md`，正文每轮写入系统提示词
-- 参考卡：`skills/swim-coach/references/`，点名主题后用 `read_file` 读取一份
+- 技能：`skills/swim-coach/SKILL.md`（主循环正文）；每线程首次对话用官方 `pinned_skills` 钉入，系统提示不塞全文
+- 参考卡：`references/turn-protocol.md`（语音回合）、`intent-analysis.md`、`queryable-data.md`、`voice-style.md`，以及主题/CSS 卡；按主循环 `read_file` 按需选用，每轮至多一张主题卡
 - 档案工具：`query_athlete_state`、`assess_readiness`、`save_profile_fields`、`save_subjective_note`
 - 训练数据：`ask_swim_database`，内部是只读 SQL 子代理
 
