@@ -91,6 +91,42 @@ CREATE TABLE IF NOT EXISTS css_anchors (
   created_at TEXT NOT NULL,
   is_current INTEGER NOT NULL DEFAULT 1
 );
+
+-- 单次分析：同步后入队；状态 analyzing|succeeded|failed；报告另表只读给表盘
+CREATE TABLE IF NOT EXISTS session_analysis_jobs (
+  activity_id TEXT PRIMARY KEY,
+  status TEXT NOT NULL,
+  error TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS session_analysis_reports (
+  activity_id TEXT PRIMARY KEY,
+  template_id TEXT NOT NULL,
+  report_json TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+-- 趋势分析：按跨度入队与存报告
+-- 趋势：默认不入队；用户点选跨度后 status=analyzing；新同步作废 succeeded→idle
+CREATE TABLE IF NOT EXISTS trend_analysis_jobs (
+  span TEXT PRIMARY KEY,
+  status TEXT NOT NULL,
+  error TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS trend_analysis_reports (
+  span TEXT PRIMARY KEY,
+  template_id TEXT NOT NULL,
+  report_json TEXT NOT NULL,
+  data_fingerprint TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
 """
 
 
@@ -99,5 +135,11 @@ def init_coach_db(db_path: Path) -> None:
     db_path.parent.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(db_path) as conn:
         conn.executescript(SCHEMA_SQL)
+        # 旧库补列：趋势报告数据指纹，用于「无新数据则复用缓存」
+        cols = {row[1] for row in conn.execute("PRAGMA table_info(trend_analysis_reports)")}
+        if "data_fingerprint" not in cols:
+            conn.execute(
+                "ALTER TABLE trend_analysis_reports ADD COLUMN data_fingerprint TEXT"
+            )
         conn.commit()
 

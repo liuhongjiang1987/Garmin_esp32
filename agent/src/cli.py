@@ -1,26 +1,37 @@
-# 模块级说明：提供本地开发期 CLI，执行初始化、重算与交互对话。
+# 模块级说明：本地 CLI。
+# 单次：after-sync 预分析；趋势：request-trend 点选入队，再 process-jobs / 后台跑。
+# analyze-* 仅开发调试。
 
 from __future__ import annotations
 
 import argparse
 import json
-import os
-import sys
+import logging
 
-import uuid
-
-from src.coach_agent import ask_agent, ask_agent_stream, create_coach_agent
+from src.analysis_queue import (
+    after_sync,
+    enqueue_session_jobs,
+    get_session_report,
+    get_trend_report,
+    get_trend_status,
+    list_sessions_for_ui,
+    list_trends_for_ui,
+    process_session_jobs,
+    process_trend_jobs,
+    request_trend_analysis,
+)
 from src.analytics.pipeline import run_activity_analytics
 from src.config import load_settings
 from src.db.schema import init_coach_db
 from src.repository.swim_repo import DbPaths, SwimRepository
-from src.tools import build_tools
+from src.session_analysis_agent import run_session_analysis
+from src.trend_analysis_agent import SPAN_DEFS, run_trend_analysis
+
+logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s %(message)s")
 
 
 def build_repo() -> SwimRepository:
-    """构建仓库对象。"""
     settings = load_settings()
-    # 逐行注释：已有 coach.db 也要补齐新表（如 css_anchors），避免 OperationalError。
     init_coach_db(settings.coach_db_path)
     return SwimRepository(
         DbPaths(
@@ -32,7 +43,6 @@ def build_repo() -> SwimRepository:
 
 
 def cmd_init() -> None:
-    """初始化 coach.db 并导入样例 evidence。"""
     settings = load_settings()
     init_coach_db(settings.coach_db_path)
     repo = build_repo()
@@ -54,7 +64,6 @@ def cmd_init() -> None:
 
 
 def cmd_analytics(activity_id: str) -> None:
-    """手动触发分析。"""
     settings = load_settings()
     repo = build_repo()
     evidence = run_activity_analytics(
@@ -65,8 +74,110 @@ def cmd_analytics(activity_id: str) -> None:
     print(json.dumps(evidence, ensure_ascii=False, indent=2))
 
 
+def cmd_after_sync(session_limit: int, trend_limit: int) -> None:
+    """同步后：单次入队处理 + 作废趋势缓存（不预跑九档）。"""
+    settings = load_settings()
+    repo = build_repo()
+    result = after_sync(repo, settings, session_limit=session_limit, trend_limit=trend_limit)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
+def cmd_process_jobs(session_limit: int, trend_limit: int) -> None:
+    """消化单次队列 + 用户已点选的趋势任务。"""
+    settings = load_settings()
+    repo = build_repo()
+    enqueue_session_jobs(repo)
+    print(
+        json.dumps(
+            {
+                "session": process_session_jobs(repo, settings, limit=session_limit),
+                "trend": process_trend_jobs(repo, settings, limit=trend_limit),
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
+
+
+def cmd_request_trend(span: str, *, run_now: bool) -> None:
+    """模拟点选跨度：入队；可选立刻跑完。"""
+    settings = load_settings()
+    repo = build_repo()
+    result = request_trend_analysis(repo, span)
+    if run_now and result["status"] == "analyzing":
+        stats = process_trend_jobs(repo, settings, limit=1, only_span=span)
+        result = {**get_trend_status(repo, span), "process": stats, "started": result.get("started")}
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
+def cmd_trend_status(span: str) -> None:
+    repo = build_repo()
+    print(json.dumps(get_trend_status(repo, span), ensure_ascii=False, indent=2))
+
+
+def cmd_list_sessions() -> None:
+    """打印表盘会看到的列表状态。"""
+    repo = build_repo()
+    print(json.dumps(list_sessions_for_ui(repo), ensure_ascii=False, indent=2))
+
+
+def cmd_show_report(activity_id: str) -> None:
+    """只读已入库报告（未完成则提示）。"""
+    repo = build_repo()
+    report = get_session_report(repo, activity_id)
+    if report is None:
+        items = {i["activity_id"]: i for i in list_sessions_for_ui(repo, limit=200)}
+        item = items.get(activity_id)
+        if item:
+            print(json.dumps({"ok": False, "status": item["status"], "can_open": False}, ensure_ascii=False))
+        else:
+            print(json.dumps({"ok": False, "error": "not_found"}, ensure_ascii=False))
+        return
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+
+
+def cmd_list_trends() -> None:
+    repo = build_repo()
+    print(json.dumps(list_trends_for_ui(repo), ensure_ascii=False, indent=2))
+
+
+def cmd_show_trend_report(span: str) -> None:
+    """只读已入库趋势报告（模拟点开 ✓ 跨度）。"""
+    repo = build_repo()
+    report = get_trend_report(repo, span)
+    if report is None:
+        items = {i["span"]: i for i in list_trends_for_ui(repo)}
+        item = items.get(span)
+        if item:
+            print(json.dumps({"ok": False, "status": item["status"], "can_open": False}, ensure_ascii=False))
+        else:
+            print(json.dumps({"ok": False, "error": "not_found"}, ensure_ascii=False))
+        return
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+
+
+def cmd_analyze_session_debug(activity_id: str | None) -> None:
+    """开发调试：不经队列直接跑 Agent（不写产品状态机时用）。"""
+    settings = load_settings()
+    repo = build_repo()
+    aid = activity_id or repo.get_latest_swim_activity_id()
+    if not aid:
+        print("没有可用的游泳活动")
+        return
+    report = run_session_analysis(repo, aid, settings=settings)
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+
+
+def cmd_analyze_trend_debug(span: str) -> None:
+    settings = load_settings()
+    repo = build_repo()
+    report = run_trend_analysis(repo, span, settings=settings)
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+
+
 def cmd_serve() -> None:
-    """在本机启动内网文字接口。默认只接受这台电脑自己的访问。"""
+    import os
+
     import uvicorn
 
     from src.api import create_app
@@ -76,224 +187,69 @@ def cmd_serve() -> None:
     uvicorn.run(create_app(), host=host, port=port)
 
 
-def cmd_chat() -> None:
-    """进入交互式对话（单 ReAct Agent + 短期记忆）。"""
-    settings = load_settings()
-    repo = build_repo()
-    # 逐行注释：档案和采访工具。训练数据工具在创建教练时挂上。
-    tools = build_tools(repo)
-    # 逐行注释：创建带 checkpointer 与数据接地的单 Agent。
-    agent = create_coach_agent(settings=settings, tools=tools, repo=repo)
-    # 逐行注释：为本次会话分配唯一 thread_id，供多轮短期记忆续接。
-    thread_id = f"cli-{uuid.uuid4().hex[:8]}"
-
-    print("swim coach agent ready, 输入 q 退出")
-    while True:
-        try:
-            user_text = input("你> ").strip()
-        except KeyboardInterrupt:
-            # 逐行注释：在等待输入时 Ctrl+C，直接结束会话，不打印调用栈。
-            print()
-            break
-        if user_text.lower() in {"q", "quit", "exit"}:
-            break
-        print("教练> ", end="", flush=True)
-        has_output = False
-        failed = False
-        try:
-            for token_text in ask_agent_stream(agent, user_text, thread_id=thread_id):
-                has_output = True
-                print(token_text, end="", flush=True)
-        except KeyboardInterrupt:
-            # 逐行注释：生成过程中 Ctrl+C 只停本轮，回到下一轮输入。
-            print("\n（已停止本轮输出）", end="")
-            failed = True
-        except Exception as exc:
-            # 逐行注释：限流或其他接口错误时留在对话循环里，避免整段会话被 traceback 打断。
-            failed = True
-            name = type(exc).__name__
-            if name == "RateLimitError" or getattr(exc, "status_code", None) == 429:
-                print("\n（接口限流，请稍等再问）", end="")
-            else:
-                print(f"\n（本轮失败：{name}，请重试）", end="")
-        if not has_output and not failed:
-            # 逐行注释：若上游未返回流式 token，给出可感知提示。
-            print("(未收到流式输出，请重试)", end="", flush=True)
-        print()
-        sys.stdout.flush()
-
-
-_VALIDATE_CASES = [
-    # ── M1 效率纠偏 ──
-    {
-        "id": "M1-01",
-        "tag": "M1",
-        "question": "最近一场自由泳效率怎么样？",
-        "must_not_contain": ["越小越好"],
-        "note": "不应无条件说越小越好",
-    },
-    {
-        "id": "M1-02",
-        "tag": "M1",
-        "question": "最近三场效率有没有进步？",
-        "should_contain_any": ["同", "对照", "对比", "相近配速"],
-        "note": "谈进步时应提到对照条件",
-    },
-    {
-        "id": "M1-03",
-        "tag": "M1",
-        "question": "我的 SWOLF 比上次低了，但感觉配速变慢了，是进步了吗？",
-        "should_contain_any": ["刷", "滑行", "过长", "试探", "再测", "相近配速"],
-        "note": "配速变慢 SWOLF 变好时应试探刷分",
-    },
-    # ── M1 查询机制 ──
-    {
-        "id": "M1-04",
-        "tag": "M1",
-        "question": "查询我最近三次游泳的总体表现。",
-        "must_not_contain": ["我来帮你查一下"],
-        "note": "应实际调用工具查库，不能只回一句承诺",
-    },
-    # ── M2 CSS 无锚点 ──
-    {
-        "id": "M2-01",
-        "tag": "M2",
-        "question": "我该怎么练？",
-        "should_contain_any": ["CSS", "临界", "测试", "400", "配速"],
-        "note": "无锚点时应引导测试或自报 CSS",
-    },
-    {
-        "id": "M2-02",
-        "tag": "M2",
-        "question": "什么是 CSS？",
-        "should_contain_any": ["临界", "强度", "配速", "锚"],
-        "note": "应简要解释 CSS 概念",
-    },
-    # ── M2 CSS 存锚点 ──
-    {
-        "id": "M2-03",
-        "tag": "M2",
-        "question": "我的 CSS 大概 2 分钟每 100 米，400+200 自测的。",
-        "should_contain_any": ["Z", "区", "有氧", "阈值"],
-        "note": "应保存锚点并报出训练区",
-    },
-    # ── M2 三条处方 ──
-    {
-        "id": "M2-04",
-        "tag": "M2",
-        "question": "展开讲讲这周怎么练。",
-        "should_contain_any": ["复测", "周"],
-        "must_not_contain": ["第四条", "第五条"],
-        "note": "最多三条组次，必须提复测",
-    },
-    # ── 基础功能 ──
-    {
-        "id": "BASE-01",
-        "tag": "基础",
-        "question": "你好小智",
-        "must_not_contain": ["ask_swim_database", "SQL", "SELECT"],
-        "note": "打招呼不查库",
-    },
-    {
-        "id": "BASE-02",
-        "tag": "基础",
-        "question": "最近一场游了多远？",
-        "should_contain_any": ["米", "距离"],
-        "note": "简单数据查询应正常返回",
-    },
-]
-
-
-def cmd_validate() -> None:
-    """执行 M1/M2 验收回归。每条打印通过或失败。"""
-    settings = load_settings()
-    repo = build_repo()
-    tools = build_tools(repo)
-
-    try:
-        agent = create_coach_agent(settings=settings, tools=tools, repo=repo)
-    except Exception as exc:
-        print(f"[FATAL] 创建教练失败: {type(exc).__name__}: {exc}")
-        return
-
-    thread_id = f"validate-{uuid.uuid4().hex[:8]}"
-    passed = 0
-    failed = 0
-    errors: list[str] = []
-
-    for case in _VALIDATE_CASES:
-        cid = case["id"]
-        q = case["question"]
-        print(f"\n{'='*50}")
-        print(f"[{cid}] {case['tag']} | {case['note']}")
-        print(f"  Q: {q}")
-
-        try:
-            answer = ""
-            for token in ask_agent_stream(agent, q, thread_id=thread_id):
-                answer += token
-            print(f"  A: {answer[:300]}")
-        except Exception as exc:
-            print(f"  ✗ 调用失败: {type(exc).__name__}: {exc}")
-            failed += 1
-            errors.append(f"{cid}: 调用失败")
-            continue
-
-        # 检查 must_not_contain
-        fail_reasons: list[str] = []
-        for bad in case.get("must_not_contain", []):
-            if bad in answer:
-                fail_reasons.append(f"不应包含「{bad}」")
-
-        # 检查 should_contain_any
-        keywords = case.get("should_contain_any", [])
-        if keywords and not any(kw in answer for kw in keywords):
-            fail_reasons.append(f"应包含其中之一: {keywords}")
-
-        if fail_reasons:
-            for r in fail_reasons:
-                print(f"  ✗ {r}")
-            failed += 1
-            errors.append(f"{cid}: {'; '.join(fail_reasons)}")
-        else:
-            print(f"  ✓ 通过")
-            passed += 1
-
-    print(f"\n{'='*50}")
-    print(f"结果: {passed} 通过, {failed} 失败, 共 {len(_VALIDATE_CASES)} 条")
-    if errors:
-        print("失败项:")
-        for e in errors:
-            print(f"  - {e}")
-
-
 def main() -> None:
-    """CLI 入口。"""
-    parser = argparse.ArgumentParser(description="Swim coach agent CLI")
+    parser = argparse.ArgumentParser(description="Swim analysis CLI (v2 queue)")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     sub.add_parser("init", help="init coach db and seed evidence")
-
-    analytics_parser = sub.add_parser("analytics", help="run analytics for one activity")
+    analytics_parser = sub.add_parser("analytics", help="compute evidence for one CSV activity")
     analytics_parser.add_argument("--activity-id", default="638297383")
 
-    sub.add_parser("chat", help="interactive chat")
-    sub.add_parser("serve", help="start the text API")
-    sub.add_parser("validate", help="run quick validation prompts")
+    after = sub.add_parser("after-sync", help="session enqueue + invalidate trend cache")
+    after.add_argument("--session-limit", type=int, default=10)
+    after.add_argument("--trend-limit", type=int, default=1)
+
+    proc = sub.add_parser("process-jobs", help="process session + on-demand trend jobs")
+    proc.add_argument("--session-limit", type=int, default=10)
+    proc.add_argument("--trend-limit", type=int, default=3)
+
+    sub.add_parser("list-sessions", help="UI list with analyzing/succeeded status")
+    show = sub.add_parser("show-report", help="read stored session report only")
+    show.add_argument("--activity-id", required=True)
+    sub.add_parser("list-trends", help="UI trend spans (idle until clicked)")
+    req_t = sub.add_parser("request-trend", help="click a span: enqueue analyzing")
+    req_t.add_argument("--span", required=True, choices=sorted(SPAN_DEFS.keys()))
+    req_t.add_argument("--run", action="store_true", help="process this span now")
+    st_t = sub.add_parser("trend-status", help="poll trend analyzing page")
+    st_t.add_argument("--span", required=True, choices=sorted(SPAN_DEFS.keys()))
+    show_t = sub.add_parser("show-trend-report", help="read stored trend report only")
+    show_t.add_argument("--span", required=True, choices=sorted(SPAN_DEFS.keys()))
+
+    dbg_s = sub.add_parser("analyze-session", help="DEBUG: run agent now (bypass queue write path)")
+    dbg_s.add_argument("--activity-id", default=None)
+    dbg_t = sub.add_parser("analyze-trend", help="DEBUG: run trend agent now")
+    dbg_t.add_argument("--span", default="1m", choices=sorted(SPAN_DEFS.keys()))
+
+    sub.add_parser("serve", help="start HTTP API")
 
     args = parser.parse_args()
     if args.cmd == "init":
         cmd_init()
     elif args.cmd == "analytics":
         cmd_analytics(args.activity_id)
-    elif args.cmd == "chat":
-        cmd_chat()
+    elif args.cmd == "after-sync":
+        cmd_after_sync(args.session_limit, args.trend_limit)
+    elif args.cmd == "process-jobs":
+        cmd_process_jobs(args.session_limit, args.trend_limit)
+    elif args.cmd == "list-sessions":
+        cmd_list_sessions()
+    elif args.cmd == "show-report":
+        cmd_show_report(args.activity_id)
+    elif args.cmd == "list-trends":
+        cmd_list_trends()
+    elif args.cmd == "request-trend":
+        cmd_request_trend(args.span, run_now=args.run)
+    elif args.cmd == "trend-status":
+        cmd_trend_status(args.span)
+    elif args.cmd == "show-trend-report":
+        cmd_show_trend_report(args.span)
+    elif args.cmd == "analyze-session":
+        cmd_analyze_session_debug(args.activity_id)
+    elif args.cmd == "analyze-trend":
+        cmd_analyze_trend_debug(args.span)
     elif args.cmd == "serve":
         cmd_serve()
-    elif args.cmd == "validate":
-        cmd_validate()
 
 
 if __name__ == "__main__":
     main()
-

@@ -1,42 +1,70 @@
-# Swim Coach Agent
+# Swim Analysis Agents（2.0）
 
-第一版游泳教练。主教练负责中文口语、采访和主题建议；训练数字由 SQL 子代理按问题查询。
+## 产品时序
 
-- 技能：`skills/swim-coach/SKILL.md`（主循环正文）；每线程首次对话用官方 `pinned_skills` 钉入，系统提示不塞全文
-- 参考卡：`references/turn-protocol.md`（语音回合）、`intent-analysis.md`、`queryable-data.md`、`voice-style.md`，以及主题/CSS 卡；按主循环 `read_file` 按需选用，每轮至多一张主题卡
-- 档案工具：`query_athlete_state`、`assess_readiness`、`save_profile_fields`、`save_subjective_note`
-- 训练数据：`ask_swim_database`，内部是只读 SQL 子代理
+### 单次分析（预计算）
 
-## 运行
-
-在 `agent/` 目录：
-
-```bash
-python -m src.cli chat
+```text
+每天定时同步 Garmin → 写入 swim_evidence
+  → after-sync：新场次入队 status=analyzing（列表转圈）
+  → Worker 跑 session Agent → 报告入库 ✓
+  → 表盘点 ✓ → GET .../report（只读）
 ```
 
-输入 `q`、`quit` 或 `exit` 结束。生成过程中按 Ctrl+C 只停止本轮。
+### 趋势分析（点选触发 + 结果缓存）
 
-内网文字接口，默认只监听这台电脑：
+```text
+九宫格点「1个月」等
+  → POST /trends/{span}/analyze
+     · cached=true → 直接 GET .../report（不跑模型）
+     · 否则入队 → 「分析中」页轮询 status → report
+成功报告按跨度保存；窗口场次未变则复用。
+after-sync 仅在有新场次时作废趋势缓存（不同步预跑九档）
+```
+
+| 文件 | 职责 |
+|------|------|
+| `src/session_analysis_agent.py` | 单次 Agent |
+| `src/trend_analysis_agent.py` | 趋势 Agent（报告含 `charts.swolf/pace/distance`） |
+| `src/analysis_queue.py` | 入队 / 处理 / 列表；趋势 `request_trend_analysis` |
+| `src/api.py` | 表盘 API + `/internal/after-sync` |
+
+## 常用命令
 
 ```bash
+cd agent
+
+# 同步后（只消化单次；作废趋势缓存）
+python -m src.cli after-sync
+
+# 单次列表
+python -m src.cli list-sessions
+python -m src.cli show-report --activity-id 638297383
+
+# 趋势：模拟点选 → 可选立刻跑完 → 轮询 / 读报告
+python -m src.cli list-trends
+python -m src.cli request-trend --span 1m --run
+python -m src.cli trend-status --span 1m
+python -m src.cli show-trend-report --span 1m
+
+# 继续消化队列（含用户已点选的趋势）
+python -m src.cli process-jobs
+
+# HTTP
 python -m src.cli serve
+# GET  /sessions  /sessions/{id}/report
+# GET  /trends
+# POST /trends/{span}/analyze
+# GET  /trends/{span}/status
+# GET  /trends/{span}/report
+# POST /internal/after-sync
 ```
 
-`GET /health` 返回 `{"ok": true}`。`POST /ask` 的正文是 `{"text": "最近一场配速多少"}`，回答在 `reply`。
+`analyze-session` / `analyze-trend` 仅 **DEBUG**（绕过队列直接调模型）。
 
-改过代码后需要重新启动这次对话，进程不会自动加载新代码。
-
-导入样例证据：
+## 和 NAS 同步衔接
 
 ```bash
-python -m src.cli init
+../scripts/after_sync_analyze.sh
+# 或 curl -X POST http://127.0.0.1:8765/internal/after-sync
 ```
-
-NAS 每天同步成功后会自动计算新的游泳指标，结果在共享目录的 `HealthData/DBs/swim_evidence.db`。本机挂着该共享时，教练查询读这份库。需要手动补算时：
-
-```bash
-python scripts/compute_swim_metrics.py
-```
-
-设计说明见 `docs/游泳教练Agent设计文档.md`。

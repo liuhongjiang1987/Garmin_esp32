@@ -1,36 +1,41 @@
-# 开发说明
+# 开发说明（2.0）
 
-## 当前数据
+## 数据
 
-- 活动库：`../data/garmindb_fixtures/garmin_activities.db`，只有 `activities`，由 CSV 重建
-- 健康库：`../data/garmindb_fixtures/garmin.db`，保留，当前教练不查询
-- 教练库：`./data/coach.db`，evidence、单圈、档案和主观笔记
-- 查询缓存：`./data/swim_sql.db`，每次 `ask_swim_database` 前重建，可以删除
+- 活动库：`../data/garmindb_fixtures/garmin_activities.db`
+- 教练库：`./data/coach.db`（evidence、单圈增强、档案）
+- NAS 证据库（若挂载）：`SWIM_EVIDENCE_DB` / 默认 `/Volumes/home/.../swim_evidence.db`
 
-活动唯一来源是 `data/activity_*.csv`。重建：
+活动样例 CSV 重建：
 
 ```bash
 python3 ../scripts/build_fixtures_from_csv.py
 ```
 
-## 对话
+## 分析入口（队列）
 
 ```bash
-python -m src.cli chat
+python -m src.cli init
+python -m src.cli after-sync          # 同步后：入队 + 处理
+python -m src.cli list-sessions       # 表盘列表状态
+python -m src.cli show-report --activity-id ID   # 只读报告
+python -m src.cli process-jobs        # 继续消化队列
 ```
 
-模型、接口和库路径来自 `agent/.env`，由 `src/config.py` 读取。
+模型与路径来自 `agent/.env`（`src/config.py`）。
 
-## 代码入口
+## 代码
 
-- `src/cli.py`：`init`、`analytics`、`chat`、`validate`
-- `src/coach_agent.py`：Deep Agents 主教练、短系统提示、流式输出（Skills 按需加载）
-- `src/sql_agent.py`：薄 SQL 子代理（固定两视图 + 安全门）
-- `skills/swim-coach/`：主循环 + references（回合预算 / 意图 / 可查口径 / 口语 / 主题卡）
-- `src/tools.py`：档案和采访工具
-- `src/analytics/pipeline.py`：把一场 CSV 算成 evidence 并落库
+| 路径 | 说明 |
+|------|------|
+| `src/analysis_queue.py` | 入队 / Worker / 列表只读 |
+| `src/session_analysis_agent.py` | 单次 Agent |
+| `src/trend_analysis_agent.py` | 趋势 Agent |
+| `src/repository/swim_repo.py` | SQLite 访问 |
+| `src/cli.py` / `src/api.py` | CLI 与 HTTP |
 
-## 尚未接入
+已删除：`coach_agent.py`、`sql_agent.py`、`tools.py`、`speech.py`、`skills/swim-coach/`。
 
-- FastAPI 与 ESP32
-- `garmin.db` 里的体重、静息心率和每日摘要
+## 综合建议
+
+出计划 / 薄对话尚未在本包落地；见 `docs/2.0/`。
