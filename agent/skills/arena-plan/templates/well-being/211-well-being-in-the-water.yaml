@@ -1,0 +1,50 @@
+# Arena #211 | Well-being | easy | 水中身心放松
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-211
+arena_ref: 211
+title: 水中身心放松
+goal_bucket: wellbeing
+arena_goal: Well-being
+level: easy
+theme: 水中身心放松
+duration_min: 45
+volume_band_m:
+- 1020
+- 1380
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳
+- kind: main
+  distance_m: 100.0
+  stroke: 蛙泳
+  note: 蛙泳
+  rest_s: 30
+- kind: main
+  distance_m: 100.0
+  stroke: 仰泳
+  note: 仰泳
+  rest_s: 30
+- kind: main
+  distance_m: 200.0
+  stroke: 选项
+  drill_type: 踢动
+  note: 双腿选择泳姿
+  rest_s: 30
+- kind: main
+  distance_m: 200.0
+  stroke: 选项
+  drill_type: 划水
+  note: 双臂选择泳姿
+  rest_s: 30
+- kind: main
+  distance_m: 300.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 30
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由选择泳姿

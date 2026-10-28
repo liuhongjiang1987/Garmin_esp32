@@ -1,0 +1,59 @@
+# Arena #291 | Speed | easy | 提升推进效率（公开水域）- 速度周训练1
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-291
+arena_ref: 291
+title: 提升推进效率（公开水域）- 速度周训练1
+goal_bucket: speed
+arena_goal: Speed
+level: easy
+theme: 提升推进效率（公开水域）- 速度周训练1
+duration_min: 40
+volume_band_m:
+- 1530
+- 2070
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 400.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由选择泳姿；轻松游进行热身
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 选项
+  equipment: 8字板
+  note: 自由泳姿；1次快游+1次慢游，选择你喜欢的泳姿
+  rest_s: 15
+- kind: main
+  distance_m: 100.0
+  stroke: 仰泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 双臂仰泳；仰泳双划臂
+- kind: main
+  repeat: 8
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳手臂；50米渐进游，从第一段到第四段，重复进行
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 仰泳
+  equipment: 8字板
+  note: 双臂仰泳
+- kind: main
+  repeat: 4
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 自由泳；交替进行50米仅打腿+50米仅划臂。使用浮板，打腿时将浮板当作浮板使用
+  rest_s: 20
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由游；自由游放松放松

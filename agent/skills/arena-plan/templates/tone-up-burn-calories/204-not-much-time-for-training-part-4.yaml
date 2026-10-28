@@ -1,0 +1,63 @@
+# Arena #204 | Tone Up & Burn Calories | medium | 时间不多？训练方案4
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-204
+arena_ref: 204
+title: 时间不多？训练方案4
+goal_bucket: tone
+arena_goal: Tone Up & Burn Calories
+level: medium
+theme: 时间不多？训练方案4
+duration_min: 60
+volume_band_m:
+- 1785
+- 2415
+content_language: 2
+sections:
+- kind: warmup
+  distance_m: 500.0
+  stroke: 选项
+  equipment: 浮板
+  note: 任意泳姿；轻松游
+- kind: main
+  repeat: 6
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；有氧训练
+  rest_s: 10
+- kind: main
+  distance_m: 200.0
+  stroke: 选项
+  drill_type: 踢动
+  equipment: 浮板
+  note: 任意泳姿腿部；用浮板
+  rest_s: 20
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；1次快游 + 1次恢复
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 仰泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 仰泳腿部
+  rest_s: 20
+- kind: main
+  repeat: 6
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；1-3组逐步加速
+  rest_s: 20
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 选项
+  drill_type: 踢动
+  equipment: 浮板
+  note: 任意泳姿腿部；用浮板
+dryland_note: 泳池边热身 x2 肩部绕环：右臂前向20次 - 左臂前向20次 - 右臂后向20次 - 左臂后向20次 - 双臂前向10次 - 双臂后向10次。弓步：右腿前弓步10次
+  - 左腿前弓步10次 - 右腿侧弓步10次 - 左腿侧弓步10次

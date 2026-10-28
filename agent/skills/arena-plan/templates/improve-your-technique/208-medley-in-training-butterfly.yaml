@@ -1,0 +1,50 @@
+# Arena #208 | Improve your technique | hard | 混合泳训练 - 蝶泳
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-208
+arena_ref: 208
+title: 混合泳训练 - 蝶泳
+goal_bucket: technique
+arena_goal: Improve your technique
+level: hard
+theme: 混合泳训练 - 蝶泳
+duration_min: 75
+volume_band_m:
+- 1870
+- 2530
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 600.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由选择泳姿；热身泳，泳姿自选。
+- kind: main
+  repeat: 6
+  distance_m: 50.0
+  stroke: 仰泳
+  equipment: 浮板
+  note: 混合泳；（25米蝶泳+25米仰泳 / 25米仰泳+25米蛙泳 / 25米蛙泳+25米自由泳）×2组
+  rest_s: 15
+- kind: main
+  repeat: 16
+  distance_m: 25.0
+  stroke: 蝶泳
+  equipment: 浮板
+  note: 蝶泳；1：前15米强力游 / 2：后15米强力游 / 3：25米正常游 / 4：25米强力蝶泳
+  rest_s: 15
+- kind: main
+  repeat: 3
+  distance_m: 100.0
+  stroke: 蝶泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 蝶泳腿；可使用或不使用浮板
+  rest_s: 15
+- kind: cooldown
+  repeat: 6
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 浮板
+  note: 自由泳手臂
+  rest_s: 20

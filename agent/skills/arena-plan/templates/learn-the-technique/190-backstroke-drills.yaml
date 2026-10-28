@@ -1,0 +1,57 @@
+# Arena #190 | Learn the technique | easy | 仰泳练习！
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-190
+arena_ref: 190
+title: 仰泳练习！
+goal_bucket: learn
+arena_goal: Learn the technique
+level: easy
+theme: 仰泳练习！
+duration_min: 45
+volume_band_m:
+- 850
+- 1150
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳选择；选择你喜欢的泳姿进行热身游泳。
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 仰泳
+  drill_type: 划水
+  note: 单臂仰泳；双臂贴于身体两侧，注意控制身体滚动，仅移动一只手臂，保持头部稳定，肩部协调运动。
+  rest_s: 30
+- kind: main
+  distance_m: 100.0
+  stroke: 仰泳
+  note: 仰泳；完整仰泳，注意肩部滚动。
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 仰泳
+  drill_type: 分解动作
+  note: 仰泳；只有一个练习和一个器材，可能和游泳一样古老，用于纠正这个错误，就是将小杯子放在额头，刚好在泳镜上方。
+  rest_s: 30
+- kind: main
+  distance_m: 100.0
+  stroke: 仰泳
+  note: 仰泳；现在专注于头部位置：尽量保持头部稳定，不要倾斜。
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 仰泳
+  drill_type: 分解动作
+  equipment: 脚蹼
+  note: 单臂仰泳；缓慢移动手臂，注意检查手臂是否伸直且位置正确（尽可能观察），然后确保手臂保持伸直。
+  rest_s: 30
+- kind: main
+  distance_m: 100.0
+  stroke: 仰泳
+  note: 仰泳；完成所有这些练习后，你就能游出完美的仰泳了！:)
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳选择；选择你喜欢的泳姿进行放松游泳，尽情放松！

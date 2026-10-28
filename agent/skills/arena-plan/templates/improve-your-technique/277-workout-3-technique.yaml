@@ -1,0 +1,107 @@
+# Arena #277 | Improve your technique | medium | 训练3 - 技术
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-277
+arena_ref: 277
+title: 训练3 - 技术
+goal_bucket: technique
+arena_goal: Improve your technique
+level: medium
+theme: 训练3 - 技术
+duration_min: 110
+volume_band_m:
+- 2720
+- 3680
+content_language: 2
+sections:
+- kind: warmup
+  distance_m: 400.0
+  stroke: 选项
+  equipment: 8字板
+  note: 任意泳姿；400米热身自选
+  rest_s: 60
+- kind: warmup
+  distance_m: 200.0
+  stroke: 选项
+  drill_type: 踢动
+  equipment: 8字板
+  note: 踢腿自选；1×200米踢腿自选，轻松
+  rest_s: 20
+- kind: warmup
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳手臂；使用浮板，每3次划水换气
+  rest_s: 20
+- kind: warmup
+  distance_m: 200.0
+  stroke: 选项
+  drill_type: 划水
+  equipment: 8字板
+  note: 任意泳姿；1×200米划水自选，轻松
+  rest_s: 20
+- kind: warmup
+  repeat: 4
+  distance_m: 50.0
+  stroke: 仰泳
+  drill_type: 踢动
+  equipment: 8字板
+  note: 仰泳腿部；使用脚蹼
+  rest_s: 20
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 分解动作
+  equipment: 8字板
+  note: 自由泳；1）单臂划水，另一臂前伸 + 1）每种泳姿完整游完距离
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 选项
+  drill_type: 分解动作
+  equipment: 8字板
+  note: 划水练习
+  rest_s: 60
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；同前，但使用手蹼和脚蹼
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 选项
+  drill_type: 分解动作
+  equipment: 8字板
+  note: 划水练习
+  rest_s: 60
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 分解动作
+  equipment: 8字板
+  note: 自由泳；1）手指拖拽划水，另一臂侧划 + 1）每种泳姿完整游完距离
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 选项
+  drill_type: 分解动作
+  equipment: 8字板
+  note: 划水练习
+  rest_s: 60
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；同前，但使用手蹼和脚蹼
+  rest_s: 20
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 选项
+  equipment: 8字板
+  note: 任意泳姿；100米放松

@@ -1,0 +1,97 @@
+# Arena #496 | Endurance | medium | 保持前进
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-496
+arena_ref: 496
+title: 保持前进
+goal_bucket: endurance
+arena_goal: Endurance
+level: medium
+theme: 保持前进
+duration_min: 45
+volume_band_m:
+- 2975
+- 4024
+content_language: 2
+sections:
+- kind: warmup
+  repeat: 2
+  distance_m: 400.0
+  stroke: 选项
+  equipment: 浮板
+  note: '仰泳；带脚蹼在10米墙处
+
+    不计时'
+  rest_s: 15
+- kind: warmup
+  repeat: 2
+  distance_m: 200.0
+  stroke: 选项
+  drill_type: 踢动
+  equipment: 浮板
+  note: 仰泳打腿；200米仰泳打腿
+  rest_s: 15
+- kind: warmup
+  repeat: 16
+  distance_m: 25.0
+  stroke: 蝶泳
+  equipment: 浮板
+  note: '蝶泳；8组25米蝶泳
+
+    10米墙处'
+  rest_s: 5
+- kind: main
+  repeat: 3
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: '自由泳；3组200米自由泳抓水练习
+
+    手臂前伸
+
+    滑入水中
+
+    流畅
+
+    10米墙处
+
+    快速转身
+
+    流畅出发'
+  rest_s: 15
+- kind: main
+  repeat: 8
+  distance_m: 50.0
+  stroke: 混合泳
+  drill_type: 分解动作
+  equipment: 浮板
+  note: '混合泳顺序；4组50米混合泳顺序练习
+
+    25米练习
+
+    25米提速
+
+    良好出发
+
+    良好结束
+
+    10米墙处
+
+    转身'
+  rest_s: 5
+- kind: main
+  repeat: 6
+  distance_m: 100.0
+  stroke: 蝶泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 蝶泳；3组100米蝶泳打腿
+  rest_s: 5
+- kind: cooldown
+  distance_m: 300.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: '自由泳；300米自由泳轻松游
+
+    或
+
+    100米自由泳轻松游'

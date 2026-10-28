@@ -1,0 +1,75 @@
+# Arena #217 | Speed | hard | 冲刺型运动员——泳池训练
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-217
+arena_ref: 217
+title: 冲刺型运动员——泳池训练
+goal_bucket: speed
+arena_goal: Speed
+level: hard
+theme: 冲刺型运动员——泳池训练
+duration_min: 75
+volume_band_m:
+- 2125
+- 2875
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 自由泳
+  note: 自由泳选择；热身自由泳
+- kind: warmup
+  repeat: 8
+  distance_m: 25.0
+  stroke: 选项
+  note: 自选泳姿*；*“自选泳姿”指个人偏好或想要训练的泳姿。
+  rest_s: 15
+- kind: main
+  repeat: 6
+  distance_m: 50.0
+  stroke: 自由泳
+  note: 自由泳；中等强度的激活游
+  rest_s: 10
+- kind: main
+  repeat: 12
+  distance_m: 25.0
+  stroke: 选项
+  note: 自选泳姿；4组内递进游（起始慢，结束快）——4组半慢半快——4组半快半慢
+  rest_s: 15
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 选项
+  note: 自选泳姿；25米全力冲刺，尽可能从跳台出发。恢复时间是游进时间的两倍（例如25米用时15秒，则恢复时间30秒）
+  rest_s: 30
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳选择
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 选项
+  note: 自选泳姿；此练习用于在最小全身疲劳下重新掌握技术动作控制。
+  rest_s: 15
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 仰泳
+  drill_type: 划水
+  equipment: 脚蹼
+  note: 混合泳；每种泳姿2×25米：此练习追求最少划臂次数下的最大频率（自由泳和仰泳4-6次，蛙泳和蝶泳2-3次）。
+  rest_s: 15
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳选择；放松游
+- kind: main
+  repeat: 2
+  distance_m: 50.0
+  stroke: 选项
+  note: 自选泳姿；2×50米全力游，尽可能从跳台出发。可每3分钟重新开始一次（确保完全恢复）。
+  rest_s: 115
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳选择；放松恢复游

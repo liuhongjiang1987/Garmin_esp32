@@ -1,0 +1,46 @@
+# Arena #494 | Improve your technique | medium | 单臂自由泳练习
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-494
+arena_ref: 494
+title: 单臂自由泳练习
+goal_bucket: technique
+arena_goal: Improve your technique
+level: medium
+theme: 单臂自由泳练习
+duration_min: 30
+volume_band_m:
+- 1275
+- 1725
+content_language: 2
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 自由泳
+  equipment: 手蹼
+  note: 自由泳手臂
+- kind: main
+  repeat: 4
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 手蹼
+  note: 自由泳手臂；4×100米单臂划水（每25米换臂），每次间隔15秒休息或游50米正常自由泳
+  rest_s: 15
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 手蹼
+  note: '自由泳手臂；2×50米单臂划水（手臂伸出）
+
+    2×50米单臂划水（手臂下垂）'
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 手蹼
+  note: 自由泳；现在用有力的划水动作，不使用器材游100米
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 手蹼
+  note: 自由泳

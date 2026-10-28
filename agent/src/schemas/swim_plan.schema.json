@@ -1,0 +1,74 @@
+{
+  "title": "SwimTrainingPlan",
+  "description": "游泳课结构化训练计划：热身、主要、放松板块列表，供墨水屏按模板渲染。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["sections"],
+  "properties": {
+    "sections": {
+      "type": "array",
+      "description": "按上课顺序的板块；通常含 warmup、main、cooldown。",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/section" }
+    }
+  },
+  "$defs": {
+    "section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "板块类型",
+          "enum": ["warmup", "main", "cooldown"]
+        },
+        "repeat": {
+          "type": ["integer", "null"],
+          "description": "重复次数；无则 null。主要组常用。",
+          "minimum": 1
+        },
+        "distance_m": {
+          "type": ["number", "null"],
+          "description": "本板块距离（米）；无则 null",
+          "minimum": 0
+        },
+        "stroke": {
+          "type": ["string", "null"],
+          "description": "泳姿；无则 null",
+          "enum": [
+            "自由泳",
+            "蛙泳",
+            "仰泳",
+            "蝶泳",
+            "选项",
+            "混合泳 (IM)",
+            "IM/趟",
+            "逆序个人混合泳 (RIMO)",
+            "混合泳"
+          ]
+        },
+        "drill_type": {
+          "type": ["string", "null"],
+          "description": "训练类型（界面显示「类型：」）；无则 null",
+          "enum": ["踢动", "划水", "分解动作"]
+        },
+        "equipment": {
+          "type": ["string", "null"],
+          "description": "器材（界面「器材」）；枚举脚蹼/浮板/手蹼/8字板/呼吸管。种子模板有值必须保留；确实无器材才 null（null 则整行不显示）。",
+          "enum": ["脚蹼", "浮板", "手蹼", "8字板", "呼吸管"]
+        },
+        "note": {
+          "type": ["string", "null"],
+          "description": "注释正文；空或 null 则不显示。最长 200 字。",
+          "maxLength": 200
+        },
+        "rest_s": {
+          "type": ["integer", "null"],
+          "description": "休息秒数（组间间隔）；无则 null。不单独成页。",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

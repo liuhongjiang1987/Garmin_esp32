@@ -1,0 +1,87 @@
+# Arena #272 | Endurance | medium | 长距离游泳训练 - 1
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-272
+arena_ref: 272
+title: 长距离游泳训练 - 1
+goal_bucket: endurance
+arena_goal: Endurance
+level: medium
+theme: 长距离游泳训练 - 1
+duration_min: 90
+volume_band_m:
+- 2975
+- 4025
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 自由泳
+  note: 自由泳；自由游热身
+- kind: warmup
+  repeat: 12
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 分解动作
+  note: 自由泳；注意技术，尽量游得规范
+  rest_s: 10
+- kind: main
+  repeat: 8
+  distance_m: 50.0
+  stroke: 自由泳
+  note: 自由泳；此段为正式训练前的激活环节，保持中等强度，避免过度
+  rest_s: 5
+- kind: main
+  distance_m: 50.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 5
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 10
+- kind: main
+  distance_m: 150.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 15
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 20
+- kind: main
+  distance_m: 150.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 15
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 10
+- kind: main
+  distance_m: 50.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 5
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳；正式训练后放松
+- kind: cooldown
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  note: 自由泳；此时尝试在全身疲劳状态下仍保持技术动作
+  rest_s: 15
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳；训练后主动恢复
+- kind: cooldown
+  repeat: 8
+  distance_m: 50.0
+  stroke: 自由泳
+  note: 自由泳；训练后主动恢复
+  rest_s: 15

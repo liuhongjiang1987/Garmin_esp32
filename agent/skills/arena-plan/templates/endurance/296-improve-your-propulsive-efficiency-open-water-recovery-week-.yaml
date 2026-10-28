@@ -1,0 +1,45 @@
+# Arena #296 | Endurance | medium | 提升推进效率（公开水域）- 恢复周，训练3
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-296
+arena_ref: 296
+title: 提升推进效率（公开水域）- 恢复周，训练3
+goal_bucket: endurance
+arena_goal: Endurance
+level: medium
+theme: 提升推进效率（公开水域）- 恢复周，训练3
+duration_min: 50
+volume_band_m:
+- 1700
+- 2300
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由选择泳姿；自由泳热身
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳；使用浮板
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；前25米用力游，后25米放松游
+  rest_s: 30
+- kind: main
+  repeat: 12
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；尝试保持第一周1000米测试时的划水节奏
+  rest_s: 15
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 选项
+  equipment: 8字板
+  note: 自由泳；放松游，放松恢复

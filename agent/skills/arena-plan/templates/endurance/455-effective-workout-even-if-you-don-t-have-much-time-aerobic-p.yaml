@@ -1,0 +1,104 @@
+# Arena #455 | Endurance | medium | 时间不多也高效 - 有氧功率训练
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-455
+arena_ref: 455
+title: 时间不多也高效 - 有氧功率训练
+goal_bucket: endurance
+arena_goal: Endurance
+level: medium
+theme: 时间不多也高效 - 有氧功率训练
+duration_min: 75
+volume_band_m:
+- 2125
+- 2875
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 选项
+  equipment: 浮板
+  note: 自由泳轻松游；轻柔热身游
+- kind: main
+  repeat: 2
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 自由泳腿；可带浮板或不带
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 分解动作
+  equipment: 浮板
+  note: 自由泳；技术练习
+  rest_s: 20
+- kind: main
+  repeat: 2
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 浮板
+  note: 自由泳；25米打腿 + 25米用浮板游
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 分解动作
+  equipment: 浮板
+  note: 自由泳；技术练习
+  rest_s: 20
+- kind: main
+  repeat: 2
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；前15米不换气冲刺 + 后35米慢速游完50米
+  rest_s: 20
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；25米快 + 25米极慢恢复
+  rest_s: 5
+- kind: main
+  repeat: 3
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；50米快 + 50米极慢恢复
+  rest_s: 10
+- kind: main
+  distance_m: 300.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 浮板
+  note: 手臂自由泳；用浮板，每组结束后游一段恢复，每50米换气节奏为3/5/5
+  rest_s: 30
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；25米快 + 25米极慢恢复
+  rest_s: 5
+- kind: main
+  repeat: 3
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；50米快 + 50米极慢恢复
+  rest_s: 10
+- kind: main
+  distance_m: 300.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 浮板
+  note: 手臂自由泳；用浮板，每组结束后游一段恢复，每50米换气节奏为3/5/5
+  rest_s: 30
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 选项
+  equipment: 浮板
+  note: 轻柔游；放松游，轻松随意

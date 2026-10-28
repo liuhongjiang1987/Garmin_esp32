@@ -50,7 +50,7 @@ _DIMENSION_KNOWLEDGE = """
 你只写 chart_notes 各一条短说明（适配墨水屏，一句即可），例如「近6次整体下降，效率在变好」。
 不要改写 charts 里的数字。SWOLF 下降通常表示效率变好。
 
-【下一步】一条周期向建议文案，不是跳转。配速用已算好的分秒文案。
+【下一步】一条周期向建议文案，不是跳转。配速用已算好的文案（如 2'14"），勿写成「分/秒」。
 """.strip()
 
 
@@ -103,10 +103,11 @@ class TrendAnalysisReport(BaseModel):
 
 
 def pace_text(seconds: Any) -> str | None:
+    """秒/100米 → 设计稿配速文案，如 2'14\"。"""
     if seconds is None:
         return None
     total = int(round(float(seconds)))
-    return f"{total // 60}分{total % 60:02d}秒/100米"
+    return f"{total // 60}'{total % 60:02d}\""
 
 
 def _parse_time(value: str | None) -> datetime | None:
@@ -289,6 +290,19 @@ def compute_trend_metrics(raw: dict[str, Any]) -> dict[str, Any]:
     distances = [float(s["distance_m"]) for s in sessions if s.get("distance_m") is not None]
     total_distance = sum(distances) if distances else 0.0
 
+    # 过滤坏点：证据库偶发把圈内异常值写成整场均配速/SWOLF（如 255755s）
+    def _sane_pace(v: Any) -> float | None:
+        if v is None:
+            return None
+        x = float(v)
+        return x if 40.0 <= x <= 360.0 else None
+
+    def _sane_swolf(v: Any) -> float | None:
+        if v is None:
+            return None
+        x = float(v)
+        return x if 20.0 <= x <= 120.0 else None
+
     timed: list[tuple[float, float, float]] = []
     for item in sessions:
         ts = _parse_time(item.get("start_time"))
@@ -297,10 +311,10 @@ def compute_trend_metrics(raw: dict[str, Any]) -> dict[str, Any]:
         if ts.tzinfo is not None:
             ts = ts.replace(tzinfo=None)
         day = ts.timestamp() / 86400.0
-        pace = item.get("avg_pace_s")
-        swolf = item.get("avg_swolf")
+        pace = _sane_pace(item.get("avg_pace_s"))
+        swolf = _sane_swolf(item.get("avg_swolf"))
         if pace is not None and swolf is not None:
-            timed.append((day, float(pace), float(swolf)))
+            timed.append((day, pace, swolf))
 
     days = [t[0] for t in timed]
     paces = [t[1] for t in timed]
@@ -371,6 +385,122 @@ def build_trend_datapack(
     return {**raw, "metrics": metrics}
 
 
+def _distance_text(meters: Any) -> str:
+    """设计稿总距/周距：≥100m 用 km 一位小数，否则整米。"""
+    if meters is None:
+        return "—"
+    m = float(meters)
+    if m >= 100:
+        return f"{m / 1000.0:.1f}km"
+    return f"{int(round(m))}m"
+
+
+def _efficiency_text(progress: dict[str, Any], *, insufficient: bool) -> str:
+    """进步页「效率」短文案（对齐设计稿「持续改善」等）。"""
+    if insufficient:
+        return "样本不足"
+    pace_worse = bool(progress.get("pace_getting_slower"))
+    swolf_worse = bool(progress.get("swolf_getting_worse"))
+    if not pace_worse and not swolf_worse:
+        return "持续改善"
+    if pace_worse and not swolf_worse:
+        return "效率在变好"
+    if not pace_worse and swolf_worse:
+        return "效率下滑"
+    return "波动"
+
+
+def apply_trend_design_pages(data: dict[str, Any], datapack: dict[str, Any]) -> dict[str, Any]:
+    """用代码指标覆盖页标题与字段，对齐 design N0DWE/ZSgTW/zNl6m。
+
+    模型只保留 notes / next_step / chart_notes；概览/进步/负荷数字与 label 一律代码写死。
+    """
+    metrics = datapack.get("metrics") or {}
+    display = metrics.get("display") or {}
+    progress = metrics.get("progress") or {}
+    load = metrics.get("load") or {}
+    insufficient = bool(display.get("sample_insufficient") or metrics.get("sample_insufficient"))
+    count = int(display.get("session_count") or metrics.get("session_count") or 0)
+    span_label = str(display.get("span_label") or datapack.get("span_label") or "")
+    total_m = display.get("total_distance_m")
+    if total_m is None:
+        total_m = metrics.get("total_distance_m")
+
+    by_id: dict[str, dict[str, Any]] = {}
+    for page in data.get("pages") or []:
+        if isinstance(page, dict) and page.get("page_id"):
+            by_id[str(page["page_id"])] = page
+
+    def keep_notes(page_id: str) -> list[str]:
+        page = by_id.get(page_id) or {}
+        notes = page.get("notes") or []
+        return [str(n) for n in notes if n][:2]
+
+    overview = {
+        "page_id": "overview",
+        "title": "区间概览",
+        "metrics": [
+            {"label": "跨度", "value": span_label or "—"},
+            {"label": "场次", "value": f"{count}场"},
+            {"label": "总距", "value": _distance_text(total_m)},
+            {"label": "均配速", "value": progress.get("avg_pace_text") or "—"},
+        ],
+        "notes": keep_notes("overview"),
+    }
+    progress_page = {
+        "page_id": "progress",
+        "title": "进步",
+        "metrics": [
+            {"label": "配速", "value": progress.get("avg_pace_text") or "—"},
+            {
+                "label": "SWOLF",
+                "value": (
+                    f"{progress['avg_swolf']}"
+                    if progress.get("avg_swolf") is not None
+                    else "—"
+                ),
+            },
+            {
+                "label": "效率",
+                "value": _efficiency_text(progress, insufficient=insufficient),
+            },
+        ],
+        "notes": keep_notes("progress"),
+    }
+    load_page = {
+        "page_id": "load",
+        "title": "负荷",
+        "metrics": [
+            {
+                "label": "周场次",
+                "value": f"{load.get('sessions_per_week', 0)}",
+            },
+            {
+                "label": "周距离",
+                "value": _distance_text(load.get("distance_m_per_week")),
+            },
+            {"label": "风险", "value": str(load.get("risk_level") or "—")},
+        ],
+        "notes": keep_notes("load"),
+    }
+    next_step = by_id.get("next_step") or {
+        "page_id": "next_step",
+        "title": "下一步",
+        "metrics": [],
+        "notes": [],
+    }
+    next_step = {
+        **next_step,
+        "page_id": "next_step",
+        "title": "下一步",
+        "metrics": list(next_step.get("metrics") or [])[:4],
+        "notes": [str(n) for n in (next_step.get("notes") or []) if n][:2],
+    }
+
+    data = {**data, "pages": [overview, progress_page, load_page, next_step]}
+    return data
+
+
 # =============================================================================
 # Agent
 # =============================================================================
@@ -398,9 +528,11 @@ def create_trend_analysis_agent(settings: Settings | None = None):
             "你是游泳趋势分析写手。输入已含窗口场次列表与代码算好的 metrics（含 charts 点列）。"
             "只根据 metrics 与分知识填写 TrendAnalysisReport："
             "headline + pages（overview/progress/load/next_step）+ chart_notes。"
+            "页标题必须用：区间概览 / 进步 / 负荷 / 下一步。"
+            "overview 字段仅：跨度、场次、总距、均配速；progress：配速、SWOLF、效率；"
+            "load：周场次、周距离、风险。数字必须来自 metrics，配速用 2'14\" 格式。"
             "若 metrics.sample_insufficient 为 true：headline.one_liner 必须点明「样本不足」，"
             "progress/load 的 notes 只做弱描述，不下强进步/伤病结论。"
-            "页上数字来自 metrics，改写成短 label/value，不要发明新数字。"
             "chart_notes 对照 metrics.charts 各序列写一句说明，供折线图下方展示。"
             f"\n\n{_DIMENSION_KNOWLEDGE}"
         ),
@@ -466,6 +598,9 @@ def run_trend_analysis(
         chart["note"] = (notes.get(key) if isinstance(notes, dict) else None) or ""
         charts[key] = chart
     data["charts"] = charts
+
+    # 页标题/字段对齐设计稿（区间概览 / 进步 / 负荷）
+    data = apply_trend_design_pages(data, datapack)
 
     _LOGGER.info(
         "trend analysis done span=%s pages=%s chart_pts=%s",

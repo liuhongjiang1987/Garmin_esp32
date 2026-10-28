@@ -1,0 +1,51 @@
+# Arena #261 | Speed | hard | 用混合泳组合开启训练 - 3
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-261
+arena_ref: 261
+title: 用混合泳组合开启训练 - 3
+goal_bucket: speed
+arena_goal: Speed
+level: hard
+theme: 用混合泳组合开启训练 - 3
+duration_min: 45
+volume_band_m:
+- 1700
+- 2300
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由选择泳姿；轻松自由泳热身
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 蛙泳
+  equipment: 脚蹼
+  note: 混合泳 - 每种泳姿一组合；25米以最高速度游，使用脚蹼 * 蛙泳组合中禁止使用脚蹼！
+  rest_s: 15
+- kind: main
+  repeat: 3
+  distance_m: 50.0
+  stroke: 混合泳
+  equipment: 脚蹼
+  note: 混合泳 - 每种泳姿一组合；游3×50，保持200米比赛节奏
+  rest_s: 60
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 混合泳
+  equipment: 脚蹼
+  note: 混合泳 - 每种泳姿一组合；25米以最高速度游，但这次不使用脚蹼！
+  rest_s: 15
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳；每组结束后游100米放松
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳；放松自由泳

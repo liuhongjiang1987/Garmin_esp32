@@ -1,0 +1,54 @@
+# Arena #243 | Learn the technique | easy | 自由泳-提升腿部打水
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-243
+arena_ref: 243
+title: 自由泳-提升腿部打水
+goal_bucket: learn
+arena_goal: Learn the technique
+level: easy
+theme: 自由泳-提升腿部打水
+duration_min: 30
+volume_band_m:
+- 595
+- 805
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳选择；自由泳热身
+- kind: warmup
+  repeat: 4
+  distance_m: 50.0
+  stroke: 仰泳
+  equipment: 浮板
+  note: 仰泳/蛙泳；交替游1×50米仰泳 + 1×50米蛙泳
+  rest_s: 20
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 自由泳打腿；使用浮板可保持正确姿势，集中注意力于下半身肌肉，尤其是骨盆和腿部
+  rest_s: 20
+- kind: main
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 自由泳；自由泳游进时注意保持良好打腿动作，呼吸时不要张开双腿
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 自由泳打腿；使用浮板-用力打自由泳腿，游进时间控制在20至30秒之间
+  rest_s: 20
+- kind: cooldown
+  distance_m: 150.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳

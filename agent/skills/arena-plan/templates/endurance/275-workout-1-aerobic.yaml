@@ -1,0 +1,86 @@
+# Arena #275 | Endurance | medium | 训练1 - 有氧
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-275
+arena_ref: 275
+title: 训练1 - 有氧
+goal_bucket: endurance
+arena_goal: Endurance
+level: medium
+theme: 训练1 - 有氧
+duration_min: 110
+volume_band_m:
+- 2975
+- 4025
+content_language: 2
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 选项
+  equipment: 8字板
+  note: 热身自选
+  rest_s: 60
+- kind: warmup
+  repeat: 4
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 8字板
+  note: 自由泳/选项；全程轻松。1)自由泳划臂+1)踢腿自选+1)自由泳划臂+1)踢腿脚蹼自选
+  rest_s: 20
+- kind: warmup
+  repeat: 16
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 分解动作
+  equipment: 8字板
+  note: 自由泳；1)单臂划水练习+2-3)有氧游，计数划水+1)划水练习
+  rest_s: 20
+- kind: warmup
+  distance_m: 100.0
+  stroke: 选项
+  equipment: 8字板
+  note: 任意泳姿；轻松游
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；自由泳有氧游
+  rest_s: 30
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；划水次数递减 1-4
+  rest_s: 15
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；带脚蹼有氧游
+  rest_s: 30
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 混合泳
+  equipment: 8字板
+  note: 混合泳；带脚蹼，25米分段游
+  rest_s: 15
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；带脚蹼和手蹼有氧游
+  rest_s: 30
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；带手蹼和脚蹼，25米强+25米松
+  rest_s: 20
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 选项
+  equipment: 8字板
+  note: 任意泳姿；放松游

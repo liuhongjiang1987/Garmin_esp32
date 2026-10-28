@@ -1,0 +1,77 @@
+# Arena #456 | Endurance | medium | 时间不多也高效 - 有氧训练
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-456
+arena_ref: 456
+title: 时间不多也高效 - 有氧训练
+goal_bucket: endurance
+arena_goal: Endurance
+level: medium
+theme: 时间不多也高效 - 有氧训练
+duration_min: 50
+volume_band_m:
+- 1785
+- 2415
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 选项
+  drill_type: 分解动作
+  equipment: 浮板
+  note: 自由泳/仰泳/蛙泳/蝶泳/混合泳/选项；选择你喜欢的泳姿，缓慢游并注意技术细节。
+- kind: warmup
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 分解动作
+  equipment: 浮板
+  note: 自由泳；如需可佩戴脚蹼！缓慢游并注意技术细节。
+  rest_s: 20
+- kind: warmup
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 自由泳8字板；可选是否佩戴脚蹼。
+  rest_s: 30
+- kind: main
+  distance_m: 400.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳
+  rest_s: 20
+- kind: main
+  distance_m: 300.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳
+  rest_s: 20
+- kind: main
+  distance_m: 250.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳
+  rest_s: 20
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳
+  rest_s: 20
+- kind: main
+  distance_m: 150.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳
+  rest_s: 20
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 选项
+  equipment: 浮板
+  note: 自由泳/仰泳/蛙泳/蝶泳/混合泳/选项；轻松游以放松身体

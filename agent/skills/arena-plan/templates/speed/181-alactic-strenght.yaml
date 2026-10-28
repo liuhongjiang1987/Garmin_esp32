@@ -1,0 +1,38 @@
+# Arena #181 | Speed | medium | 无氧力量
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-181
+arena_ref: 181
+title: 无氧力量
+goal_bucket: speed
+arena_goal: Speed
+level: medium
+theme: 无氧力量
+duration_min: 30
+volume_band_m:
+- 935
+- 1265
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳/仰泳/蛙泳/蝶泳/混合泳/选项；热身游，泳姿自选
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳；使用脚蹼和T恤进行：- 1×25米渐进/25次练习 - 1×25米冲刺/25次练习 - 1×25米冲刺，15米休息后继续练习 - 1×25米原地打腿5-10秒，然后冲刺至25米终点
+  rest_s: 30
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳/仰泳/蛙泳/蝶泳/混合泳/选项；慢速游
+- kind: cooldown
+  distance_m: 300.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳/仰泳/蛙泳/蝶泳/混合泳/选项；放松游，泳姿自选
+dryland_note: 悬吊训练和力量训练循环。开始抗阻训练的首要目标是先在水中以外发展力量，再将其应用到水中；瑜伽和普拉提。开始抗阻训练的首要目标是先在水中以外发展力量，再将其应用到水中。

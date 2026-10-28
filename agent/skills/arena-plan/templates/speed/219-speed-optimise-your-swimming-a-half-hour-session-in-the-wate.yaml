@@ -1,0 +1,73 @@
+# Arena #219 | Speed | easy | 速度训练 - 优化你的游泳表现
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-219
+arena_ref: 219
+title: 速度训练 - 优化你的游泳表现
+goal_bucket: speed
+arena_goal: Speed
+level: easy
+theme: 速度训练 - 优化你的游泳表现
+duration_min: 30
+volume_band_m:
+- 1190
+- 1610
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 自由泳
+  drill_type: 分解动作
+  equipment: 浮板
+  note: 自由泳/选项；1×25米打腿+1×50米技术+1×75米游进
+- kind: warmup
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；25米闭气游进（尽量不呼吸）+25米渐进游进（起始慢，结束快），泳姿自选
+  rest_s: 20
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 自由泳腿部；用力打腿，使用浮板
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 浮板
+  note: 自由泳手臂；恢复游进
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；前15米以最高频率游进（游完全池后放慢速度）
+  rest_s: 15
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 浮板
+  note: 自由泳手臂；恢复游进
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳/选项；所有25米均全力游进，泳姿自选
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 浮板
+  note: 自由泳手臂；恢复游进
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳/选项；放松游进，恢复放松

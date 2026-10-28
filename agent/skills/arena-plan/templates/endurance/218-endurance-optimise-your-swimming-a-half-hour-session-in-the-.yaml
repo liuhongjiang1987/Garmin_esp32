@@ -1,0 +1,43 @@
+# Arena #218 | Endurance | easy | 耐力训练 - 优化你的游泳表现！半小时水中训练
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-218
+arena_ref: 218
+title: 耐力训练 - 优化你的游泳表现！半小时水中训练
+goal_bucket: endurance
+arena_goal: Endurance
+level: easy
+theme: 耐力训练 - 优化你的游泳表现！半小时水中训练
+duration_min: 30
+volume_band_m:
+- 1190
+- 1610
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳选择；热身自由泳
+- kind: main
+  distance_m: 400.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳；记录最终用时！
+  rest_s: 45
+- kind: main
+  distance_m: 300.0
+  stroke: 自由泳
+  note: 自由泳；配速应比400米更快40%以上
+  rest_s: 40
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳；配速应比300米更快
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳；全力游！
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳选择；放松整理游

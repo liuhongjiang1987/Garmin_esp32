@@ -1,0 +1,57 @@
+# Arena #292 | Speed | easy | 提升推进效率（公开水域）- 速度周训练2
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-292
+arena_ref: 292
+title: 提升推进效率（公开水域）- 速度周训练2
+goal_bucket: speed
+arena_goal: Speed
+level: easy
+theme: 提升推进效率（公开水域）- 速度周训练2
+duration_min: 60
+volume_band_m:
+- 1955
+- 2645
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳自选
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 自由泳腿；仅用自由泳腿游，不使用浮板
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳臂；使用浮板
+- kind: main
+  repeat: 12
+  distance_m: 75.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；75米按此方式游：前25米快速，50米内分段推进，另一段慢速游完
+  rest_s: 20
+- kind: main
+  distance_m: 400.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 8字板
+  note: 自由泳；交替进行25米技术游+25米仅用腿游+50米流畅游
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；12.5米抬头快速游！25米最后部分按个人意愿慢速结束
+  rest_s: 20
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳放松游

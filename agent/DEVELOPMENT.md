@@ -31,6 +31,9 @@ python -m src.cli process-jobs        # 继续消化队列
 | `src/analysis_queue.py` | 入队 / Worker / 列表只读 |
 | `src/session_analysis_agent.py` | 单次 Agent |
 | `src/trend_analysis_agent.py` | 趋势 Agent |
+| `src/plan_agent.py` | 综合建议出计划（强制加载 arena-plan Skill） |
+| `src/arena_plan_skill.py` | Skill/模板加载与选型 |
+| `skills/arena-plan/` | Arena 课表 Skill + 模板库 |
 | `src/repository/swim_repo.py` | SQLite 访问 |
 | `src/cli.py` / `src/api.py` | CLI 与 HTTP |
 
@@ -38,4 +41,4 @@ python -m src.cli process-jobs        # 继续消化队列
 
 ## 综合建议
 
-出计划 / 薄对话尚未在本包落地；见 `docs/2.0/`。
+出计划：`plan_agent` + `skills/arena-plan/SKILL.md`（先选模板再按摘要卡调参）。薄对话见 `docs/2.0/`。

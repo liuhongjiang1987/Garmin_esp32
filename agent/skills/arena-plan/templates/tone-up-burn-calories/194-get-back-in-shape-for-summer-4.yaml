@@ -1,0 +1,35 @@
+# Arena #194 | Tone Up & Burn Calories | medium | 为夏天恢复体能！#4
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-194
+arena_ref: 194
+title: 为夏天恢复体能！#4
+goal_bucket: tone
+arena_goal: Tone Up & Burn Calories
+level: medium
+theme: 为夏天恢复体能！#4
+duration_min: 105
+volume_band_m:
+- 2550
+- 3450
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳（自选泳姿）；热身游泳
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  note: 自由泳；25米单臂右划 + 25米单臂左划
+  rest_s: 10
+- kind: main
+  repeat: 8
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳；有氧且保持匀速
+  rest_s: 20
+- kind: cooldown
+  distance_m: 1000.0
+  stroke: 自由泳
+  note: 自由泳；尽量不中断游完，尝试计时

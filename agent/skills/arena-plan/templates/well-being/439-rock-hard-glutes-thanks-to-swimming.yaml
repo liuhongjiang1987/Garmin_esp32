@@ -1,0 +1,35 @@
+# Arena #439 | Well-being | easy | 游泳练出结实臀部！
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-439
+arena_ref: 439
+title: 游泳练出结实臀部！
+goal_bucket: wellbeing
+arena_goal: Well-being
+level: easy
+theme: 游泳练出结实臀部！
+duration_min: 30
+volume_band_m:
+- 170
+- 230
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 100.0
+  stroke: 选项
+  note: 轻松游；热身并随意游几趟！
+- kind: main
+  distance_m: 25.0
+  stroke: 选项
+  note: 蹬腿后伸；在深水区进行。建议做3组，每组15次，组间休息30秒至1分钟。
+  rest_s: 60
+- kind: main
+  distance_m: 25.0
+  stroke: 选项
+  drill_type: 踢动
+  note: 水中深蹲；在小泳池中，脚跟间距大于肩宽，脚尖外翻约30度。轻微后移骨盆，缓慢下蹲，
+  rest_s: 45
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 选项
+  equipment: 脚蹼
+  note: 轻松游；训练结束！现在来个舒服的淋浴，放松一下！

@@ -1,0 +1,85 @@
+# Arena #483 | Endurance | hard | 提升公开水域耐力 #2
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-483
+arena_ref: 483
+title: '提升公开水域耐力 #2'
+goal_bucket: endurance
+arena_goal: Endurance
+level: hard
+theme: '提升公开水域耐力 #2'
+duration_min: 75
+volume_band_m:
+- 2635
+- 3565
+content_language: 2
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；按自身节奏游泳
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 自由泳腿；使用浮板
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳手臂
+- kind: main
+  repeat: 6
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: '自由泳；6×50米渐进游 #1-3 #4-6，每组间休息20秒。第二段比第一段快'
+  rest_s: 20
+- kind: main
+  repeat: 8
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；8×50米，1×50米高强度 + 1×50米轻松，组间休息15秒
+  rest_s: 15
+- kind: main
+  repeat: 4
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳
+  rest_s: 10
+- kind: main
+  repeat: 2
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；75米有氧 + 25米快速
+  rest_s: 20
+- kind: main
+  repeat: 8
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；1×50米高强度 + 1×50米轻松
+  rest_s: 15
+- kind: main
+  repeat: 4
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；按比赛节奏游泳
+  rest_s: 10
+- kind: main
+  repeat: 2
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；75米有氧 + 25米快速
+  rest_s: 20
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；按自身节奏游泳

@@ -1,0 +1,83 @@
+# Arena #259 | Endurance | hard | 以混合泳组合练习开启你的训练——2
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-259
+arena_ref: 259
+title: 以混合泳组合练习开启你的训练——2
+goal_bucket: endurance
+arena_goal: Endurance
+level: hard
+theme: 以混合泳组合练习开启你的训练——2
+duration_min: 60
+volume_band_m:
+- 2040
+- 2760
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳/选项；轻度热身游泳
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 10
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 仰泳
+  equipment: 脚蹼
+  note: 混合泳；25蝶泳 + 25仰泳 + 25蛙泳 + 25自由泳
+  rest_s: 10
+- kind: main
+  repeat: 2
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 10
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 混合泳
+  note: 混合泳
+  rest_s: 10
+- kind: main
+  repeat: 3
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 10
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 混合泳
+  note: 混合泳
+  rest_s: 10
+- kind: main
+  repeat: 4
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 10
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 混合泳
+  note: 混合泳
+  rest_s: 10
+- kind: main
+  repeat: 5
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 10
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 混合泳
+  note: 混合泳
+  rest_s: 10
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳；放松并舒缓肌肉紧张。

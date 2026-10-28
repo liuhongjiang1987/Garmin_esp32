@@ -51,14 +51,14 @@ def _list_recent_session_summaries(
     *,
     limit: int = RECENT_SESSION_LIMIT,
 ) -> list[dict[str, Any]]:
-    """轻量摘要：按时间新→旧。"""
-    from src.session_analysis_agent import open_evidence_db, pace_text
+    """轻量摘要：按时间新→旧。
 
-    conn = open_evidence_db(repo)
-    try:
+    读本地 coach.db，不走 swim_evidence 网络盘（URI 全表扫可达 1s+，表盘会超时失败）。
+    """
+    from src.session_analysis_agent import pace_text
+
+    with _connect(repo) as conn:
         rows = conn.execute("SELECT activity_id, evidence_json FROM activity_evidence").fetchall()
-    finally:
-        conn.close()
 
     items: list[dict[str, Any]] = []
     for row in rows:
@@ -461,9 +461,7 @@ def after_sync(
 
 def list_sessions_for_ui(repo: SwimRepository, *, limit: int = 20) -> list[dict[str, Any]]:
     """表盘单次列表：摘要 + status（analyzing|succeeded|failed）。不调模型。"""
-    # 仅入队缺失任务，不在列表接口里 process（避免打开表盘就卡 LLM）
-    enqueue_session_jobs(repo, limit=max(limit, RECENT_SESSION_LIMIT))
-
+    # 入队只在 after_sync / Worker；列表只读，避免每次打开场次再扫一遍证据库（~1s+）
     summaries = _list_recent_session_summaries(repo, limit=limit)
     with _connect(repo) as conn:
         status_map = {
@@ -499,7 +497,10 @@ def get_session_report(repo: SwimRepository, activity_id: str) -> dict[str, Any]
         return None
     if row["status"] and row["status"] != STATUS_SUCCEEDED:
         return None
-    return json.loads(row["report_json"])
+    from src.session_analysis_agent import sanitize_session_report
+
+    # 旧报告可能含 2'14&quot;；读出时清洗，无需整库重跑
+    return sanitize_session_report(json.loads(row["report_json"]))
 
 
 def list_trends_for_ui(repo: SwimRepository) -> list[dict[str, Any]]:
@@ -548,4 +549,13 @@ def get_trend_report(repo: SwimRepository, span: str) -> dict[str, Any] | None:
         return None
     if row["status"] and row["status"] != STATUS_SUCCEEDED:
         return None
-    return json.loads(row["report_json"])
+    data = json.loads(row["report_json"])
+    # 旧缓存字段名不齐时，按设计稿重写概览/进步/负荷（notes 保留）
+    try:
+        from src.trend_analysis_agent import apply_trend_design_pages, build_trend_datapack
+
+        datapack = build_trend_datapack(repo, span)
+        data = apply_trend_design_pages(data, datapack)
+    except Exception:
+        _LOGGER.exception("normalize trend report pages failed span=%s", span)
+    return data

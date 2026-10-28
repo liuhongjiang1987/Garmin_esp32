@@ -36,8 +36,204 @@ _DIMENSION_KNOWLEDGE = """
 禁止医疗诊断；疼/胸闷只建议休息与线下评估。
 
 【下一步】只给一条可执行建议文案，不是跳转。可提「要课表去综合建议」。
-配速一律使用数据包里已算好的分秒文案，不要重算。
+配速一律使用数据包里已算好的文案（如 2'14"），不要重算或改成「分/秒」，禁止输出 HTML 实体（如 &quot;）。
+全文必须简体中文：标题、label、notes、one_liner，禁止英文句子。
 """.strip()
+
+
+_STROKE_CN = {
+    "freestyle": "自由泳",
+    "backstroke": "仰泳",
+    "breaststroke": "蛙泳",
+    "butterfly": "蝶泳",
+    "medley": "混合泳",
+    "drill": "分解",
+    "mixed": "混合",
+    "im": "混合泳",
+}
+
+
+def _stroke_cn(hint: str) -> str:
+    raw = str(hint or "").strip()
+    if not raw:
+        return ""
+    key = raw.lower().replace(" ", "")
+    return _STROKE_CN.get(key) or _STROKE_CN.get(raw.lower()) or raw
+
+
+def _unescape_ui_text(text: str) -> str:
+    """模型/工具常把 2'14\" 写成 2'14&quot;；墨水屏原样显示会乱。"""
+    return (
+        text.replace("&quot;", '"')
+        .replace("&#34;", '"')
+        .replace("&apos;", "'")
+        .replace("&#39;", "'")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&amp;", "&")
+    )
+
+
+def _fmt_num(value: Any, *, digits: int = 1, suffix: str = "") -> str:
+    if value is None:
+        return "—"
+    try:
+        num = float(value)
+    except (TypeError, ValueError):
+        return "—"
+    if digits == 0:
+        body = str(int(round(num)))
+    else:
+        body = f"{num:.{digits}f}".rstrip("0").rstrip(".")
+    return f"{body}{suffix}"
+
+
+def _rest_ratio_text(ratio: Any) -> str:
+    if ratio is None:
+        return "—"
+    try:
+        num = float(ratio)
+    except (TypeError, ValueError):
+        return "—"
+    # 证据库多为 0~1；偶发已是百分数
+    if 0 <= num <= 1.5:
+        num *= 100
+    text = f"{num:.1f}".rstrip("0").rstrip(".")
+    return f"{text}%"
+
+
+def sanitize_session_report(data: dict[str, Any]) -> dict[str, Any]:
+    """清洗报告字符串：解码 HTML 实体，避免屏上出现 1'52&quot。"""
+
+    def walk(node: Any) -> Any:
+        if isinstance(node, str):
+            return _unescape_ui_text(node)
+        if isinstance(node, list):
+            return [walk(x) for x in node]
+        if isinstance(node, dict):
+            return {k: walk(v) for k, v in node.items()}
+        return node
+
+    return walk(data)
+
+
+def apply_session_design_pages(data: dict[str, Any], datapack: dict[str, Any]) -> dict[str, Any]:
+    """用代码指标覆盖各页 metrics/title；模型只保留 notes / one_liner。"""
+    metrics = datapack.get("metrics") or {}
+    display = metrics.get("session_display") or {}
+    efficiency = metrics.get("efficiency") or {}
+    endurance = metrics.get("endurance") or {}
+    stability = metrics.get("stability") or {}
+
+    by_id: dict[str, dict[str, Any]] = {}
+    for page in data.get("pages") or []:
+        if isinstance(page, dict) and page.get("page_id"):
+            by_id[str(page["page_id"])] = page
+
+    def keep_notes(page_id: str) -> list[str]:
+        page = by_id.get(page_id) or {}
+        notes = page.get("notes") or []
+        return [_unescape_ui_text(str(n)) for n in notes if n][:2]
+
+    dist = display.get("distance_m")
+    try:
+        dist_text = f"{int(round(float(dist)))}米" if dist is not None else "—"
+    except (TypeError, ValueError):
+        dist_text = "—"
+
+    stroke_hints = [_stroke_cn(h) for h in (stability.get("stroke_hints") or []) if h]
+    stroke_text = "/".join(stroke_hints[:3]) if stroke_hints else "—"
+    outliers = stability.get("outlier_lap_indexes") or []
+    outlier_text = ",".join(str(i) for i in outliers[:5]) if outliers else "—"
+
+    overview = {
+        "page_id": "overview",
+        "title": "总览",
+        "metrics": [
+            {"label": "距离", "value": dist_text},
+            {"label": "配速", "value": display.get("pace_text") or "—"},
+            {"label": "SWOLF", "value": _fmt_num(display.get("swolf"), digits=0)},
+            {"label": "休息比", "value": _rest_ratio_text(endurance.get("rest_ratio"))},
+        ],
+        "notes": keep_notes("overview"),
+    }
+    vs_base = "—"
+    if efficiency.get("swolf_vs_baseline") is not None:
+        try:
+            vs_base = f"{float(efficiency['swolf_vs_baseline']):+.1f}"
+        except (TypeError, ValueError):
+            vs_base = "—"
+    pace_drift = "—"
+    if endurance.get("pace_drift_pct") is not None:
+        try:
+            pace_drift = f"{float(endurance['pace_drift_pct']):+.1f}%"
+        except (TypeError, ValueError):
+            pace_drift = "—"
+    swolf_drift = "—"
+    if endurance.get("swolf_drift") is not None:
+        try:
+            swolf_drift = f"{float(endurance['swolf_drift']):+.1f}"
+        except (TypeError, ValueError):
+            swolf_drift = "—"
+    pace_cv = "—"
+    if stability.get("pace_cv_pct") is not None:
+        try:
+            pace_cv = f"{float(stability['pace_cv_pct']):.1f}%"
+        except (TypeError, ValueError):
+            pace_cv = "—"
+
+    efficiency_page = {
+        "page_id": "efficiency",
+        "title": "效率",
+        "metrics": [
+            {"label": "SWOLF", "value": _fmt_num(efficiency.get("avg_swolf"), digits=0)},
+            {"label": "vs基线", "value": vs_base},
+            {"label": "前半", "value": _fmt_num(efficiency.get("first_half_swolf"), digits=1)},
+            {"label": "后半", "value": _fmt_num(efficiency.get("second_half_swolf"), digits=1)},
+        ],
+        "notes": keep_notes("efficiency"),
+    }
+    endurance_page = {
+        "page_id": "endurance",
+        "title": "耐力",
+        "metrics": [
+            {"label": "前半配速", "value": endurance.get("first_half_pace_text") or "—"},
+            {"label": "后半配速", "value": endurance.get("second_half_pace_text") or "—"},
+            {"label": "配速漂移", "value": pace_drift},
+            {"label": "SWOLF漂移", "value": swolf_drift},
+        ],
+        "notes": keep_notes("endurance"),
+    }
+    stability_page = {
+        "page_id": "stability",
+        "title": "稳定",
+        "metrics": [
+            {"label": "配速波动", "value": pace_cv},
+            {"label": "异常圈", "value": outlier_text},
+            {"label": "泳姿", "value": stroke_text[:16]},
+            {"label": "泳姿种数", "value": _fmt_num(stability.get("stroke_hint_count"), digits=0)},
+        ],
+        "notes": keep_notes("stability"),
+    }
+
+    next_step = by_id.get("next_step") or {
+        "page_id": "next_step",
+        "title": "下一步",
+        "metrics": [],
+        "notes": [],
+    }
+    next_step = {
+        "page_id": "next_step",
+        "title": "下一步",
+        "metrics": [],
+        "notes": [_unescape_ui_text(str(n)) for n in (next_step.get("notes") or []) if n][:2],
+    }
+
+    headline = data.get("headline") if isinstance(data.get("headline"), dict) else {}
+    if isinstance(headline.get("one_liner"), str):
+        headline["one_liner"] = _unescape_ui_text(headline["one_liner"])
+
+    return {**data, "headline": headline, "pages": [overview, efficiency_page, endurance_page, stability_page, next_step]}
 
 
 # =============================================================================
@@ -85,11 +281,11 @@ class SessionAnalysisReport(BaseModel):
 
 
 def pace_text(seconds: Any) -> str | None:
-    """秒/100米 → 分秒文案。"""
+    """秒/100米 → 设计稿配速文案，如 2'14\"。"""
     if seconds is None:
         return None
     total = int(round(float(seconds)))
-    return f"{total // 60}分{total % 60:02d}秒/100米"
+    return f"{total // 60}'{total % 60:02d}\""
 
 
 def _evidence_db_path(repo: SwimRepository) -> Path:
@@ -363,8 +559,8 @@ def create_session_analysis_agent(settings: Settings | None = None):
             "你是游泳单次分析写手。输入已含完整本场数据与代码算好的 metrics。"
             "只根据 metrics 与分知识填写 SessionAnalysisReport："
             "headline.one_liner + pages（overview/efficiency/endurance/stability/next_step）。"
-            "metrics 页上的数字必须来自输入 metrics，改写成短 label/value，不要发明新数字。"
-            "notes 每页最多2句，每句简短适配墨水屏。"
+            "页 metrics 的数字服务端会用代码覆盖；你重点写 notes 与 one_liner。"
+            "notes 每页最多2句，每句简短适配墨水屏；必须简体中文，禁止英文句与 HTML 实体。"
             f"\n\n{_DIMENSION_KNOWLEDGE}"
         ),
         response_format=ToolStrategy(SessionAnalysisReport),
@@ -405,13 +601,15 @@ def run_session_analysis(
         data = dict(report)
     data["activity_id"] = activity_id
     data["template_id"] = TEMPLATE_ID
-    # 用代码侧数字覆盖 headline 展示字段，避免模型改数
+    # 用代码侧数字覆盖 headline / 各页 metrics，避免模型改数或写成 &quot;
     display = datapack["metrics"]["session_display"]
     headline = data.setdefault("headline", {})
     if isinstance(headline, dict):
         headline["distance_m"] = display.get("distance_m")
         headline["pace_text"] = display.get("pace_text")
         headline["swolf"] = display.get("swolf")
+    data = apply_session_design_pages(data, datapack)
+    data = sanitize_session_report(data)
     _LOGGER.info("session analysis done activity_id=%s pages=%s", activity_id, len(data.get("pages") or []))
     return data
 

@@ -1,0 +1,51 @@
+# Arena #191 | Tone Up & Burn Calories | medium | 为夏天恢复体形！#1
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-191
+arena_ref: 191
+title: 为夏天恢复体形！#1
+goal_bucket: tone
+arena_goal: Tone Up & Burn Calories
+level: medium
+theme: 为夏天恢复体形！#1
+duration_min: 60
+volume_band_m:
+- 1955
+- 2645
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 1000.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；不中断地游，不计时
+- kind: main
+  distance_m: 300.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；缓慢游，尽量拉长身体
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 浮板
+  note: 自由泳手臂；使用浮板
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 自由泳腿部；使用浮板
+  rest_s: 20
+- kind: main
+  repeat: 3
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；有氧游，保持匀速
+  rest_s: 20
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳选择；自由游动，放松肌肉

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>墨水屏壳层本地预览 200×200</title>
+  <style>
+    :root { --ink:#000; --paper:#fff; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "PingFang SC", "Noto Sans SC", sans-serif;
+      background: #e8e8e8;
+      padding: 24px;
+      color: #222;
+    }
+    h1 { font-size: 18px; margin-bottom: 8px; }
+    p.note { font-size: 13px; color: #555; margin-bottom: 20px; max-width: 720px; }
+    .row { display: flex; flex-wrap: wrap; gap: 24px; }
+    .device {
+      width: 200px; height: 200px;
+      background: var(--paper);
+      border: 1px solid #999;
+      box-shadow: 0 8px 24px rgba(0,0,0,.12);
+      position: relative;
+      overflow: hidden;
+      image-rendering: pixelated;
+    }
+    .cap { font-size: 12px; margin-top: 8px; text-align: center; color: #444; width: 200px; }
+    /* 场次列表：两张加高卡 */
+    .sessions { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .card {
+      width: 168px; height: 78px; border-radius: 9px; border: 2px solid #000;
+      padding: 10px; display: flex; flex-direction: column; justify-content: center; gap: 8px;
+      margin: 0 auto;
+    }
+    .card.sel { background: #000; color: #fff; border-width: 0; }
+    .card .r { display: flex; justify-content: space-between; align-items: center; height: 28px; }
+    .card .r span { font-size: 16px; font-weight: 600; }
+    .icon {
+      width: 14px; height: 14px; flex-shrink: 0;
+      background-size: contain; background-repeat: no-repeat; background-position: center;
+    }
+    .icon.done-b { background-image: url("../exports/icons/preview/icon_done_black.png"); }
+    .icon.done-w { background-image: url("../exports/icons/preview/icon_done_white.png"); }
+    .icon.an-b { background-image: url("../exports/icons/preview/icon_analyzing_black.png"); }
+    .icon.an-w { background-image: url("../exports/icons/preview/icon_analyzing_white.png"); }
+    /* 趋势图 */
+    .chart-page { display: flex; flex-direction: column; height: 100%; }
+    .hdr { padding: 12px 18px 0; height: 47px; }
+    .hdr-row { display: flex; align-items: center; gap: 5px; height: 29px; }
+    .bar { width: 3px; height: 23px; background: #000; }
+    .hdr h2 { font-size: 18px; font-weight: 700; }
+    .rule { height: 1px; background: #000; margin-top: 5px; }
+    .body { padding: 10px 18px 0; flex: 1; }
+    .plot {
+      width: 164px; height: 56px; position: relative;
+    }
+    .plot svg { width: 164px; height: 56px; display: block; }
+    .ai-row {
+      display: flex; gap: 6px; margin-top: 6px; align-items: flex-start;
+    }
+    .ai-row img { width: 20px; height: 20px; }
+    .ai-row p { font-size: 14px; line-height: 1.25; width: 138px; }
+    .foot { height: 20px; display: flex; align-items: center; justify-content: center; }
+    .tri { width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid #000; }
+    .bad {
+      outline: 2px dashed #c00; outline-offset: -2px;
+    }
+    .legend { margin-top: 28px; font-size: 13px; }
+    .legend code { background: #ddd; padding: 1px 4px; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <h1>壳层 UI 本地预览（200×200，对照固件改动）</h1>
+  <p class="note">
+    验证点：① 场次列表两张加高卡不挤；② 选中态勾选/分析中为「反白 icon」而非白方块；
+    ③ 趋势图区域 164×56、左右 18 等边距、线宽 3、下方有 AI 解读。
+  </p>
+  <div class="row">
+    <div>
+      <div class="device">
+        <div class="sessions">
+          <div class="card sel">
+            <div class="r"><span>2026-09-11</span><div class="icon done-w" title="选中-已完成"></div></div>
+            <div class="r"><span>1020米</span><span>SWOLF 51</span></div>
+          </div>
+          <div class="card">
+            <div class="r"><span>2026-09-05</span><div class="icon an-b" title="未选中-分析中"></div></div>
+            <div class="r"><span>1590米</span><span>SWOLF 45</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">场次列表（加高双卡 + 反白 icon）</div>
+    </div>
+
+    <div>
+      <div class="device">
+        <div class="sessions">
+          <div class="card sel bad">
+            <div class="r">
+              <span>2026-09-11</span>
+              <!-- 错误示范：纯白方块 -->
+              <div style="width:14px;height:14px;background:#fff;" title="错误：白方块"></div>
+            </div>
+            <div class="r"><span>1020米</span><span>SWOLF 51</span></div>
+          </div>
+          <div class="card">
+            <div class="r"><span>2026-09-05</span><div class="icon done-b"></div></div>
+            <div class="r"><span>1590米</span><span>SWOLF 45</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">对比：旧 bug（白方块）</div>
+    </div>
+
+    <div>
+      <div class="device">
+        <div class="chart-page">
+          <div class="hdr">
+            <div class="hdr-row"><div class="bar"></div><h2>SWOLF趋势</h2></div>
+            <div class="rule"></div>
+          </div>
+          <div class="body">
+            <div class="plot">
+              <svg viewBox="0 0 164 56" xmlns="http://www.w3.org/2000/svg">
+                <polyline fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"
+                  points="2,6 30,12 58,50 87,16 117,16 162,50" />
+                <circle cx="2" cy="6" r="3" fill="#000"/><circle cx="30" cy="12" r="3" fill="#000"/>
+                <circle cx="58" cy="50" r="3" fill="#000"/><circle cx="87" cy="16" r="3" fill="#000"/>
+                <circle cx="117" cy="16" r="3" fill="#000"/><circle cx="162" cy="50" r="3" fill="#000"/>
+              </svg>
+            </div>
+            <div class="ai-row">
+              <img src="../images/icon-ai-bw.png" alt="AI" />
+              <p>近6次整体下降，效率在变好</p>
+            </div>
+          </div>
+          <div class="foot"><div class="tri"></div></div>
+        </div>
+      </div>
+      <div class="cap">趋势图（缩小区域 + 粗线 + 解读）</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    资源路径：<code>design/exports/icons/preview/icon_done_*.png</code>、
+    <code>icon_analyzing_*.png</code>（不透明底，选中态背景为黑）。
+  </div>
+</body>
+</html>

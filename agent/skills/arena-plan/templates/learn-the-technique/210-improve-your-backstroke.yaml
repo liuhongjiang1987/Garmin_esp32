@@ -1,0 +1,67 @@
+# Arena #210 | Learn the technique | easy | 提升仰泳技术！
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-210
+arena_ref: 210
+title: 提升仰泳技术！
+goal_bucket: learn
+arena_goal: Learn the technique
+level: easy
+theme: 提升仰泳技术！
+duration_min: 30
+volume_band_m:
+- 1062
+- 1438
+content_language: 2
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 选项
+  note: 任意泳姿；轻松游
+- kind: main
+  distance_m: 200.0
+  stroke: 仰泳
+  note: 仰泳/蛙泳；25米仰泳和25米蛙泳
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 仰泳
+  drill_type: 分解动作
+  note: 单臂仰泳；仅移动一只手臂，另一只手臂沿身体侧方保持不动，移动手臂入水和出水时正确完成滚动
+  rest_s: 30
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 仰泳
+  drill_type: 踢动
+  note: 仰泳腿部练习；仅做仰泳腿部动作，双臂沿身体两侧，配合身体滚动
+  rest_s: 30
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 仰泳
+  drill_type: 分解动作
+  note: 仰泳练习；双臂伸直向上，交替移动手臂，每次完整划水后手触碰天花板，然后换臂
+  rest_s: 30
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 仰泳
+  drill_type: 分解动作
+  note: 仰泳练习；一只手臂沿身体侧方，另一只手臂伸直置于头部上方，身体几乎侧倾，交叉手臂后换边侧卧
+  rest_s: 30
+- kind: main
+  repeat: 5
+  distance_m: 50.0
+  stroke: 仰泳
+  note: 仰泳
+  rest_s: 20
+- kind: main
+  repeat: 8
+  distance_m: 50.0
+  stroke: 自由泳
+  note: 自由泳
+  rest_s: 20
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 选项
+  note: 任意泳姿；轻松游

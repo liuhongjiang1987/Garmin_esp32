@@ -1,0 +1,66 @@
+# Arena #229 | Improve your technique | medium | 蝶泳：初学者与业余爱好者训练计划
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-229
+arena_ref: 229
+title: 蝶泳：初学者与业余爱好者训练计划
+goal_bucket: technique
+arena_goal: Improve your technique
+level: medium
+theme: 蝶泳：初学者与业余爱好者训练计划
+duration_min: 30
+volume_band_m:
+- 1190
+- 1610
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 自由泳
+  note: 自由泳/仰泳/蛙泳/蝶泳/混合泳；热身游
+- kind: warmup
+  distance_m: 200.0
+  stroke: 仰泳
+  note: 仰泳/蛙泳；交替游25米仰泳 + 25米蛙泳
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 仰泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 蝶泳腿；仰卧蝶泳腿
+  rest_s: 15
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 蛙泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 蛙泳臂+蝶泳腿；注意腿部节奏，需持续稳定，并与呼吸自然衔接，不中断
+  rest_s: 15
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 蝶泳
+  drill_type: 划水
+  equipment: 脚蹼
+  note: 单臂蝶泳；一手保持前伸不动，另一手完成划水并进行正面呼吸
+  rest_s: 15
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 蝶泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 单臂蝶泳；一手置于体侧，另一手靠近头部伸展。蝶泳腿，完成呼吸后紧接着划水，划水动作需与呼吸同步
+  rest_s: 15
+- kind: main
+  repeat: 12
+  distance_m: 50.0
+  stroke: 蝶泳
+  equipment: 脚蹼
+  note: 蝶泳/自由泳；50米游程：25米蝶泳 + 25米自由泳 / 50米全程自由泳
+  rest_s: 15
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳/仰泳/蛙泳/蝶泳/混合泳；放松自由游

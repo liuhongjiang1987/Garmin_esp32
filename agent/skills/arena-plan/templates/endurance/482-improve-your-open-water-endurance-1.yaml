@@ -1,0 +1,47 @@
+# Arena #482 | Endurance | hard | 提升公开水域耐力 #1
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-482
+arena_ref: 482
+title: '提升公开水域耐力 #1'
+goal_bucket: endurance
+arena_goal: Endurance
+level: hard
+theme: '提升公开水域耐力 #1'
+duration_min: 90
+volume_band_m:
+- 3400
+- 4600
+content_language: 2
+sections:
+- kind: warmup
+  distance_m: 600.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；以自定节奏轻松游10次
+- kind: main
+  repeat: 8
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳配合呼吸管
+  rest_s: 20
+- kind: main
+  repeat: 4
+  distance_m: 100.0
+  stroke: 仰泳
+  drill_type: 踢动
+  equipment: 8字板
+  note: 划水/自由泳/蛙泳腿；每100米=25米划水+50米每5次划水呼吸一次自由泳+25米蛙泳腿
+  rest_s: 20
+- kind: main
+  repeat: 4
+  distance_m: 600.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；4×600米，分3组200米，组间休息10秒，每组600米后休息1分钟
+  rest_s: 60
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；自定节奏游进

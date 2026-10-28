@@ -1,0 +1,62 @@
+# Arena #238 | Improve your technique | medium | 如何使用脚蹼和呼吸管训练
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-238
+arena_ref: 238
+title: 如何使用脚蹼和呼吸管训练
+goal_bucket: technique
+arena_goal: Improve your technique
+level: medium
+theme: 如何使用脚蹼和呼吸管训练
+duration_min: 45
+volume_band_m:
+- 1530
+- 2070
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 呼吸管
+  note: 自由泳/仰泳/蛙泳/蝶泳/混合泳/选项；自由泳热身
+- kind: warmup
+  repeat: 2
+  distance_m: 75.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 呼吸管
+  note: 自由泳配合呼吸管；佩戴呼吸管，仅用腿部游25米自由泳（不使用浮板）+ 25米仅用右手划水+ 25米仅用左手划水。
+  rest_s: 20
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 仰泳
+  drill_type: 踢动
+  equipment: 呼吸管
+  note: 仰泳腿；仰泳时用蝶泳腿，而不是趴着游！
+  rest_s: 15
+- kind: main
+  repeat: 10
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 呼吸管
+  note: 自由泳配合呼吸管；佩戴呼吸管和脚蹼！
+  rest_s: 15
+- kind: main
+  repeat: 12
+  distance_m: 25.0
+  stroke: 蛙泳
+  equipment: 呼吸管
+  note: 混合泳；使用脚蹼——当然不能游蛙泳！
+  rest_s: 15
+- kind: main
+  distance_m: 200.0
+  stroke: 仰泳
+  equipment: 呼吸管
+  note: 仰泳；使用脚蹼
+  rest_s: 15
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 蛙泳
+  drill_type: 踢动
+  equipment: 呼吸管
+  note: 蛙泳；游蛙泳以放松并恢复腿部和脚部的感知力。

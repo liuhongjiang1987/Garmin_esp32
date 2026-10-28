@@ -1,0 +1,64 @@
+# Arena #209 | Improve your technique | hard | 混合泳训练 - 仰泳
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-209
+arena_ref: 209
+title: 混合泳训练 - 仰泳
+goal_bucket: technique
+arena_goal: Improve your technique
+level: hard
+theme: 混合泳训练 - 仰泳
+duration_min: 75
+volume_band_m:
+- 2040
+- 2760
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 600.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由选择泳姿；热身泳，自由选择泳姿
+- kind: main
+  repeat: 4
+  distance_m: 100.0
+  stroke: 混合泳
+  equipment: 8字板
+  note: 混合泳
+  rest_s: 20
+- kind: main
+  repeat: 6
+  distance_m: 100.0
+  stroke: 仰泳
+  equipment: 8字板
+  note: 仰泳
+  rest_s: 20
+- kind: main
+  repeat: 8
+  distance_m: 50.0
+  stroke: 仰泳
+  drill_type: 踢动
+  equipment: 8字板
+  note: 仰泳腿
+  rest_s: 15
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳臂
+  rest_s: 25
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳臂
+  rest_s: 15
+- kind: cooldown
+  repeat: 2
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳臂
+  rest_s: 10

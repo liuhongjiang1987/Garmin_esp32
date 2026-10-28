@@ -11,6 +11,7 @@
 #include "board_power_bsp.h"
 #include "custom_lcd_display.h"
 #include "swim_coach.h"
+#include "swim_shell.h"
 #include "lvgl.h"
 #include "mcp_server.h"
 
@@ -92,14 +93,17 @@ class CustomBoard : public WifiBoard {
     }
 
     void InitializeButtons() {
+        /* A=BOOT：单击上一项，双击确定，长按返回。启动中仍进配网。 */
         boot_button_.OnClick([this]() {
             auto &app = Application::GetInstance();
-            // During startup (before connected), pressing BOOT button enters Wi-Fi config mode without reboot
             if (app.GetDeviceState() == kDeviceStateStarting) {
                 EnterWifiConfigMode();
                 return;
             }
-            /* 教练正在说的时候，按一下就停掉声音，回到可以继续听的状态。 */
+            if (SwimShell::Get().IsActive()) {
+                Application::GetInstance().Schedule([]() { SwimShell::Get().OnAClick(); });
+                return;
+            }
             if (app.GetDeviceState() == kDeviceStateSpeaking) {
                 CancelSwimCoach();
                 app.GetAudioService().ResetDecoder();
@@ -108,7 +112,28 @@ class CustomBoard : public WifiBoard {
             }
             app.ToggleChatState();
         });
+        boot_button_.OnDoubleClick([]() {
+            if (SwimShell::Get().IsActive()) {
+                Application::GetInstance().Schedule([]() { SwimShell::Get().OnADoubleClick(); });
+            }
+        });
+        boot_button_.OnLongPress([]() {
+            if (SwimShell::Get().IsActive()) {
+                Application::GetInstance().Schedule([]() { SwimShell::Get().OnALongPress(); });
+            }
+        });
 
+        /* B=PWR：单击下一项，双击回首页(休眠骨架)，长按关机。 */
+        pwr_button_.OnClick([]() {
+            if (SwimShell::Get().IsActive()) {
+                Application::GetInstance().Schedule([]() { SwimShell::Get().OnBClick(); });
+            }
+        });
+        pwr_button_.OnDoubleClick([]() {
+            if (SwimShell::Get().IsActive()) {
+                Application::GetInstance().Schedule([]() { SwimShell::Get().OnBDoubleClick(); });
+            }
+        });
         pwr_button_.OnLongPress([this]() {
             GetDisplay()->SetChatMessage("system", "OFF");
             vTaskDelay(pdMS_TO_TICKS(1000));
@@ -137,6 +162,7 @@ class CustomBoard : public WifiBoard {
         lcd_spi_data.spi_host         = EPD_SPI_NUM;
         lcd_spi_data.buffer_len       = 5000;
         display_                      = new CustomLcdDisplay(NULL, NULL, EXAMPLE_LCD_WIDTH, EXAMPLE_LCD_HEIGHT, DISPLAY_OFFSET_X, DISPLAY_OFFSET_Y, DISPLAY_MIRROR_X, DISPLAY_MIRROR_Y, DISPLAY_SWAP_XY, lcd_spi_data);
+        /* 壳层在 CustomLcdDisplay::SetupUI 里挂载并进首页（此时 LVGL 对象已就绪）。 */
     }
 
     void Power_Init() {
@@ -209,6 +235,8 @@ class CustomBoard : public WifiBoard {
         InitializeButtons();
         InitializeTools();
         InitializeLcdDisplay();
+        /* 墨水屏板默认偏小；启动时固定 90% 并写入设置，覆盖旧的 70。 */
+        GetAudioCodec()->SetOutputVolume(90);
     }
 
     virtual AudioCodec *GetAudioCodec() override {
@@ -224,6 +252,10 @@ class CustomBoard : public WifiBoard {
 
     void OnRecognizedText(const std::string& text) override {
         if (text.empty() || display_ == nullptr) {
+            return;
+        }
+        /* 综合建议聆听中：走采访轮，不进日常教练。 */
+        if (SwimShell::Get().TryHandleAdviceUtterance(text)) {
             return;
         }
         display_->HoldChat();

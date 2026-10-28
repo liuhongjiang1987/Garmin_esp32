@@ -182,7 +182,8 @@ def cmd_serve() -> None:
 
     from src.api import create_app
 
-    host = os.getenv("COACH_BIND", "127.0.0.1")
+    # 默认监听全网卡，供同局域网 ESP32 访问；本机调试可设 COACH_BIND=127.0.0.1
+    host = os.getenv("COACH_BIND", "0.0.0.0")
     port = int(os.getenv("COACH_PORT", "8765"))
     uvicorn.run(create_app(), host=host, port=port)
 

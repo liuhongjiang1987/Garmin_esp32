@@ -41,3 +41,6 @@ xiaozhi-esp32-main/mmap_generate_*.h
 # 本地数据缓存（如需共享样例另开目录）
 agent/data/*.db
 agent/data/*.sqlite*
+
+# 本地文档（不入库）
+docs/

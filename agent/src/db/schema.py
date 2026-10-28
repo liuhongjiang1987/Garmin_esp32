@@ -127,6 +127,16 @@ CREATE TABLE IF NOT EXISTS trend_analysis_reports (
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
 );
+
+-- 综合建议：训练计划异步任务（每运动员一条当前任务）
+CREATE TABLE IF NOT EXISTS advice_plan_jobs (
+  athlete_id TEXT PRIMARY KEY,
+  status TEXT NOT NULL,
+  error TEXT,
+  plan_id TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
 """
 
 

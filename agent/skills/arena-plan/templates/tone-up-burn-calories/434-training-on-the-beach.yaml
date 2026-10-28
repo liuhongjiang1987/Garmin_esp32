@@ -1,0 +1,44 @@
+# Arena #434 | Tone Up & Burn Calories | medium | 沙滩训练！
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-434
+arena_ref: 434
+title: 沙滩训练！
+goal_bucket: tone
+arena_goal: Tone Up & Burn Calories
+level: medium
+theme: 沙滩训练！
+duration_min: 45
+volume_band_m:
+- 850
+- 1150
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 选项
+  note: 轻松游；5分钟轻松长距离热身游泳。
+- kind: main
+  distance_m: 25.0
+  stroke: 选项
+  drill_type: 划水
+  note: 屈臂+跑步+游泳；20秒屈臂撑 + 10米短跑冲刺 + 12次划水冲刺。
+- kind: main
+  distance_m: 25.0
+  stroke: 选项
+  drill_type: 划水
+  note: 深蹲+跑步+游泳；20秒深蹲 + 10米短跑冲刺 + 12次划水冲刺
+- kind: main
+  distance_m: 25.0
+  stroke: 选项
+  drill_type: 划水
+  note: 波比跳+跑步+游泳；20秒波比跳 + 10米短跑冲刺 + 12次划水冲刺
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 选项
+  note: 轻松游；5分钟轻松长距离游泳。
+- kind: cooldown
+  distance_m: 25.0
+  stroke: 选项
+  equipment: 脚蹼
+  note: 拉伸；10分钟最终拉伸
+dryland_note: 轻松慢跑3分钟；肩部环绕与腿部摆动2分钟，肩部前后环绕 & 腿部摆动

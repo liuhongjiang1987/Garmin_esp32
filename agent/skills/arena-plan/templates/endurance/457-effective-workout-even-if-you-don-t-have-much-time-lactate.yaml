@@ -1,0 +1,90 @@
+# Arena #457 | Endurance | medium | 时间不多也高效 - 乳酸训练
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-457
+arena_ref: 457
+title: 时间不多也高效 - 乳酸训练
+goal_bucket: endurance
+arena_goal: Endurance
+level: medium
+theme: 时间不多也高效 - 乳酸训练
+duration_min: 60
+volume_band_m:
+- 1785
+- 2415
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 选项
+  equipment: 8字板
+  note: 自由泳轻松游；轻松热身游
+- kind: warmup
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 分解动作
+  equipment: 8字板
+  note: 自由泳；25米技术游 + 25米打腿
+  rest_s: 10
+- kind: warmup
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 8字板
+  note: 自由泳；25米快速游 + 25米仅打腿
+  rest_s: 20
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；用力游！
+  rest_s: 45
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳手臂；恢复
+  rest_s: 30
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；用力游！
+  rest_s: 45
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳手臂；恢复
+  rest_s: 30
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；用力游！
+  rest_s: 45
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳手臂；恢复
+  rest_s: 30
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；全力游。如想，可佩戴手蹼！
+  rest_s: 60
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 选项
+  equipment: 8字板
+  note: 恢复；轻松缓慢游恢复

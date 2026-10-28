@@ -1,0 +1,65 @@
+# Arena #179 | Endurance | hard | 有氧力量
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-179
+arena_ref: 179
+title: 有氧力量
+goal_bucket: endurance
+arena_goal: Endurance
+level: hard
+theme: 有氧力量
+duration_min: 75
+volume_band_m:
+- 2040
+- 2760
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳（自选泳姿）；热身自由泳
+- kind: main
+  repeat: 4
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳；穿着T恤游泳
+  rest_s: 20
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 腿部自由泳；使用脚蹼
+- kind: main
+  repeat: 4
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳；穿着T恤游泳
+  rest_s: 15
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 腿部自由泳；使用脚蹼
+- kind: main
+  repeat: 4
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳；穿着T恤游泳
+  rest_s: 10
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 腿部自由泳；使用脚蹼
+- kind: cooldown
+  distance_m: 300.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳（自选泳姿）；放松游
+dryland_note: 悬吊训练及力量训练循环；你的首要目标是先在水中以外进行抗阻训练以增强力量，再将其应用到水中；瑜伽与普拉提；你的首要目标是先在水中以外进行抗阻训练以增强力量，再将其应用到水中

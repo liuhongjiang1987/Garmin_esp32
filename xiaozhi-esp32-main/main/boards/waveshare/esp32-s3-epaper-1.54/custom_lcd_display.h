@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "lcd_display.h"
+#include "swim_api_client.h"
 
 /* Display color */
 typedef enum {
@@ -38,6 +39,7 @@ public:
     void RemoveChatMessage(const char* role, const char* content) override;
     void ClearChatMessages() override;
     void SetupUI() override;
+    void SetTheme(Theme* theme) override;
 
     /* 教练回答可能比小智会话更晚到，用这个接口强制写上整屏。 */
     void AppendChatTurn(const char* role, const char* content);
@@ -48,6 +50,33 @@ public:
     /* 教练请求还没返回时，回到待命也不要把已经写下的对话清掉。 */
     void HoldChat();
     void ReleaseChat();
+
+    /* 2.0 双键壳层：对齐 design/untitled.pen 首页/主菜单/场次/趋势 */
+    void EnterShellMode();
+    void ExitShellMode();
+    void ShowShellHome();
+    void ShowShellMenu(int focus);
+    void ShowShellSessions(const std::vector<SessionListItem>& items, int focus, int window,
+                           const std::string& empty_hint);
+    void ShowShellTrends(const std::vector<TrendListItem>& items, int focus,
+                         const std::string& empty_hint);
+    /* 单次/趋势详情：标题栏竖条+下划线，指标行，AI 说明，底部分页箭头。 */
+    void ShowShellReportPage(const std::string& title, const std::vector<ReportPageMetric>& metrics,
+                             const std::vector<std::string>& notes, bool show_more);
+    /* AI 说明按实宽换行后按行分页，避免一屏裁切半句、B 键误跳下一主题。 */
+    std::vector<std::string> PaginateShellAiText(const std::string& text, int max_width, int max_lines);
+    void ShowShellText(const std::string& text, bool invert = false);
+    void ShowShellChart(const std::string& title, const std::vector<float>& values, const std::string& note);
+    /* 趋势分析中/无数据：标题栏 + 64 主视觉 + 跨度/主提示/副提示（对齐 sOxZo / D1yOTx）。 */
+    void ShowShellTrendStatus(bool analyzing, const std::string& span_text, const std::string& primary,
+                              const std::string& secondary);
+    /* 综合建议首次：Logo+状态、引导正文（无 CTA）。 */
+    void ShowShellAdvice(const std::string& status_text, const std::string& body_text, const char* cta_state);
+    /* 有档案枢纽：Logo+状态 + 四按钮（个人档案/修改档案/训练计划/修改生成计划）。 */
+    void ShowShellAdviceHub(const std::string& status_text, int focus, bool plan_ready, bool plan_analyzing);
+    /* 训练计划页：标题+可选「N次」徽章、字段行、翻页三角。 */
+    void ShowShellPlanPage(const std::string& title, const std::string& repeat_badge,
+                           const std::vector<ReportPageMetric>& metrics, bool show_more);
 
     void EPD_Init();    /* 墨水屏初始化 */
     void EPD_Clear();   /* 清空屏幕 */
@@ -80,6 +109,26 @@ private:
 
     lv_obj_t* chat_panel_ = nullptr;
     lv_obj_t* chat_label_ = nullptr;
+    lv_obj_t* shell_panel_ = nullptr;
+    lv_obj_t* shell_content_ = nullptr;
+    lv_obj_t* shell_label_ = nullptr;
+    lv_obj_t* shell_image_ = nullptr;
+    lv_obj_t* shell_chart_ = nullptr;
+    bool shell_mode_ = false;
+    /* 进入壳层页：隐藏聊天/状态栏，准备 content 或 label。 */
+    void PrepareShellSurface(bool white_bg);
+    void HideShellWidgets();
+    const lv_font_t* ShellFont() const;
+    const lv_font_t* ShellTitleFont() const;
+    /* 去掉 LVGL 默认 padding/border，避免设计稿尺寸被撑破。 */
+    static void ShellBare(lv_obj_t* obj);
+    lv_obj_t* ShellBeginContent(int pad_all, int pad_row);
+    /* 无独立粗体字库时，双层错位 1px 模拟加粗。 */
+    /* wrap_width>0 时固定宽度并自动换行（详情字段长文本）。 */
+    lv_obj_t* ShellBoldLabel(lv_obj_t* parent, const char* text, const lv_font_t* font, lv_color_t color,
+                             int wrap_width = 0);
+    /* 详情标题栏：竖条与标题底对齐 + 分隔线；repeat_badge 非空时右侧黑底白字「N次」。 */
+    void ShellAddTitleHeader(lv_obj_t* root, const char* title, const char* repeat_badge = nullptr);
     std::vector<ChatSegment> segments_;
     bool chat_active_ = false;
     bool standby_ = true;

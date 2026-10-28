@@ -1,0 +1,81 @@
+# Arena #276 | Speed | medium | 训练2 - 速度
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-276
+arena_ref: 276
+title: 训练2 - 速度
+goal_bucket: speed
+arena_goal: Speed
+level: medium
+theme: 训练2 - 速度
+duration_min: 110
+volume_band_m:
+- 2550
+- 3450
+content_language: 2
+sections:
+- kind: warmup
+  distance_m: 600.0
+  stroke: 选项
+  note: 任意泳姿；热身自选
+  rest_s: 60
+- kind: warmup
+  repeat: 4
+  distance_m: 150.0
+  stroke: 混合泳
+  drill_type: 分解动作
+  note: 个人泳姿/混合泳；25米泳姿练习 + 100米混合泳，分25米完成
+  rest_s: 20
+- kind: warmup
+  repeat: 8
+  distance_m: 50.0
+  stroke: 自由泳
+  note: 自由泳/个人泳姿；3组自由泳有氧 + 1组个人泳姿，15米全力 + 35米轻松
+  rest_s: 15
+- kind: warmup
+  distance_m: 100.0
+  stroke: 选项
+  drill_type: 分解动作
+  note: 划手练习
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 选项
+  note: 个人泳姿；15米全力 + 35米轻松（重点练习出发后抬头动作）
+  rest_s: 30
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 选项
+  note: 个人泳姿；20米全力 + 5米轻松（保持每划距离在15至20米之间）
+  rest_s: 30
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 选项
+  note: 个人泳姿；1组15米全力 + 35米轻松 + 2-3组20米全力 + 5米轻松 + 1组25米全力
+  rest_s: 30
+- kind: main
+  distance_m: 100.0
+  stroke: 选项
+  note: 任意泳姿；轻松游
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 选项
+  note: 个人泳姿；从15米标记处出发返回，重点练习转身/出发动作。充分休息
+  rest_s: 90
+- kind: main
+  distance_m: 300.0
+  stroke: 选项
+  note: 任意泳姿；1组300米自选轻松游（可使用任意器材）
+  rest_s: 60
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 选项
+  note: 个人泳姿；25米全力出发 + 25米轻松游。充分休息
+  rest_s: 115
+- kind: cooldown
+  distance_m: 300.0
+  stroke: 选项
+  note: 任意泳姿；轻松游以放松结束

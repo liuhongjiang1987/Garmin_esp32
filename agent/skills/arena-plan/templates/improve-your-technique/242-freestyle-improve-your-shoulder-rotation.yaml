@@ -1,0 +1,47 @@
+# Arena #242 | Improve your technique | medium | 自由泳-改善肩部转动
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-242
+arena_ref: 242
+title: 自由泳-改善肩部转动
+goal_bucket: technique
+arena_goal: Improve your technique
+level: medium
+theme: 自由泳-改善肩部转动
+duration_min: 45
+volume_band_m:
+- 1105
+- 1495
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳；自由泳热身
+- kind: warmup
+  repeat: 8
+  distance_m: 25.0
+  stroke: 仰泳
+  equipment: 脚蹼
+  note: 混合泳；每种泳姿各2×25米（2次蝶泳+2次仰泳+2次蛙泳+2次自由泳）
+  rest_s: 15
+- kind: main
+  repeat: 9
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 划水
+  note: 自由泳手臂练习使用浮板；使用浮板，保持匀速游进，每3×50米调整一次浮板位置，注意不同姿势下的身体平衡
+  rest_s: 20
+- kind: main
+  repeat: 3
+  distance_m: 100.0
+  stroke: 自由泳
+  note: 自由泳；尝试保持刚刚练习时的身体对齐，但这次不用浮板！
+  rest_s: 20
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 仰泳
+  note: 仰泳/蛙泳；交替游25米仰泳+25米蛙泳
+- kind: cooldown
+  distance_m: 50.0
+  stroke: 自由泳
+  note: 自由泳选择；自由泳放松

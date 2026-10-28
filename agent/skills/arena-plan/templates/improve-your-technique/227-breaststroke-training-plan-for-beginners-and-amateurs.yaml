@@ -1,0 +1,66 @@
+# Arena #227 | Improve your technique | medium | 蛙泳：初学者与业余爱好者训练计划
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-227
+arena_ref: 227
+title: 蛙泳：初学者与业余爱好者训练计划
+goal_bucket: technique
+arena_goal: Improve your technique
+level: medium
+theme: 蛙泳：初学者与业余爱好者训练计划
+duration_min: 40
+volume_band_m:
+- 1232
+- 1667
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 自由泳
+  note: 自由选择泳姿；热身泳
+- kind: warmup
+  distance_m: 200.0
+  stroke: 仰泳
+  note: 仰泳/蛙泳；交替游25米仰泳+25米蛙泳
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 蛙泳
+  drill_type: 踢动
+  note: 蛙泳手臂；尽量保持腿部几乎不动（可借助轻微自由泳动作辅助）
+  rest_s: 15
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 蛙泳
+  drill_type: 踢动
+  note: 蛙泳；完整蛙泳，头部始终不沉入水中，尽量保持肩部稳定，以充分发力蹬腿
+  rest_s: 15
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 蛙泳
+  drill_type: 划水
+  note: 蛙泳；两次蹬腿一次划臂，寻找能顺畅滑行的姿势
+  rest_s: 15
+- kind: main
+  repeat: 2
+  distance_m: 25.0
+  stroke: 蛙泳
+  drill_type: 划水
+  note: 蛙泳；一次水面划臂，一次完整水下划臂，充分入水
+- kind: main
+  repeat: 5
+  distance_m: 50.0
+  stroke: 蛙泳
+  note: 蛙泳；完整蛙泳，充分伸展并顺畅滑行
+  rest_s: 15
+- kind: cooldown
+  repeat: 8
+  distance_m: 50.0
+  stroke: 自由泳
+  note: 自由泳；放松游
+  rest_s: 10
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 选项
+  note: 自由泳选择

@@ -1,0 +1,63 @@
+# Arena #245 | Speed | hard | 自由泳 - 改进水下打腿
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-245
+arena_ref: 245
+title: 自由泳 - 改进水下打腿
+goal_bucket: speed
+arena_goal: Speed
+level: hard
+theme: 自由泳 - 改进水下打腿
+duration_min: 45
+volume_band_m:
+- 1275
+- 1725
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳选择；热身自由泳
+- kind: warmup
+  repeat: 6
+  distance_m: 50.0
+  stroke: 混合泳
+  equipment: 脚蹼
+  note: 混合泳；每12.5米换一次泳姿（若在25米泳池，即每半池换一次）
+  rest_s: 15
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 蝶泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 蝶泳打腿；使用脚蹼，水下进行
+  rest_s: 20
+- kind: main
+  repeat: 6
+  distance_m: 25.0
+  stroke: 蝶泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 蝶泳打腿；不使用脚蹼
+  rest_s: 20
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 自由泳；以一次强力水下打腿开始，之后全力自由泳至15米，最后25米自由发挥
+  rest_s: 20
+- kind: cooldown
+  repeat: 3
+  distance_m: 100.0
+  stroke: 仰泳
+  equipment: 脚蹼
+  note: 自由泳/仰泳；交替进行1×100米自由泳 + 1×100米仰泳
+  rest_s: 15
+- kind: cooldown
+  distance_m: 150.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳选择

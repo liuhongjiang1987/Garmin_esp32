@@ -1,0 +1,41 @@
+# Arena #293 | Speed | medium | 提升推进效率（公开水域）- 速度周，训练3
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-293
+arena_ref: 293
+title: 提升推进效率（公开水域）- 速度周，训练3
+goal_bucket: speed
+arena_goal: Speed
+level: medium
+theme: 提升推进效率（公开水域）- 速度周，训练3
+duration_min: 60
+volume_band_m:
+- 2040
+- 2760
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；热身自由泳
+- kind: main
+  repeat: 4
+  distance_m: 400.0
+  stroke: 仰泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳；尝试以稳定快速的速度完成全部400米。若感到吃力，可使用浮板辅助，或交替游几米仰泳
+  rest_s: 60
+- kind: main
+  repeat: 8
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳手臂；游得流畅并充分伸展
+  rest_s: 30
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；放松恢复

@@ -1,0 +1,79 @@
+# Arena #175 | Tone Up & Burn Calories | medium | 消耗卡路里
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-175
+arena_ref: 175
+title: 消耗卡路里
+goal_bucket: tone
+arena_goal: Tone Up & Burn Calories
+level: medium
+theme: 消耗卡路里
+duration_min: 60
+volume_band_m:
+- 1700
+- 2300
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳自选；12泳道
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 仅打腿-自由泳自选；8泳道
+- kind: warmup
+  distance_m: 100.0
+  stroke: 选项
+  equipment: 浮板
+  note: 打腿练习；4泳道
+- kind: main
+  distance_m: 300.0
+  stroke: 混合泳
+  equipment: 浮板
+  note: 混合泳；每种泳姿游3泳道：1泳道练习+2泳道完整游
+  rest_s: 45
+- kind: main
+  distance_m: 200.0
+  stroke: 混合泳
+  equipment: 浮板
+  note: 混合泳（完整游）；每种泳姿2泳道
+  rest_s: 45
+- kind: main
+  distance_m: 100.0
+  stroke: 混合泳
+  equipment: 浮板
+  note: 混合泳；每种泳姿1泳道
+  rest_s: 45
+- kind: main
+  distance_m: 300.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；连续游12泳道
+  rest_s: 40
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；8泳道
+  rest_s: 35
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；4泳道
+  rest_s: 30
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 选项
+  equipment: 浮板
+  note: 水下游；4泳道水下游，可带或不带脚蹼
+  rest_s: 30
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳自选；4泳道
+  rest_s: 5

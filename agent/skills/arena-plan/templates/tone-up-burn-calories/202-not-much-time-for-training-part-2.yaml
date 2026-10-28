@@ -1,0 +1,76 @@
+# Arena #202 | Tone Up & Burn Calories | medium | 时间不多？训练也高效！- 第二部分
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-202
+arena_ref: 202
+title: 时间不多？训练也高效！- 第二部分
+goal_bucket: tone
+arena_goal: Tone Up & Burn Calories
+level: medium
+theme: 时间不多？训练也高效！- 第二部分
+duration_min: 50
+volume_band_m:
+- 1615
+- 2185
+content_language: 2
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 选项
+  equipment: 浮板
+  note: 自由泳/仰泳/蛙泳/蝶泳/混合泳/选项；慢速游
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 浮板
+  note: 自由泳手臂；使用浮板
+- kind: main
+  distance_m: 100.0
+  stroke: 仰泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 仰泳腿部
+  rest_s: 20
+- kind: main
+  repeat: 10
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 浮板
+  note: 自由泳；奇数组休息5秒，偶数组休息10秒
+  rest_s: 5
+- kind: main
+  distance_m: 100.0
+  stroke: 仰泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 仰泳腿部
+  rest_s: 20
+- kind: main
+  repeat: 4
+  distance_m: 25.0
+  stroke: 选项
+  drill_type: 踢动
+  equipment: 浮板
+  note: 任意泳姿；使用浮板（可选）
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 选项
+  equipment: 浮板
+  note: 自由泳/仰泳/蛙泳/蝶泳/混合泳/选项；慢速游
+  rest_s: 20
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 浮板
+  note: 自由泳手臂；使用浮板
+  rest_s: 20
+- kind: cooldown
+  distance_m: 300.0
+  stroke: 选项
+  equipment: 浮板
+  note: 自由泳/仰泳/蛙泳/蝶泳/混合泳/选项；慢速游
+dryland_note: 池外热身：双臂旋转 x2 次：右臂前向20次 – 左臂前向20次 – 右臂后向20次 – 左臂后向20次 – 双臂同时前向10次 – 双臂同时后向10次。弓步：右腿前弓步10次
+  – 左腿前弓步10次 – 侧向弓步

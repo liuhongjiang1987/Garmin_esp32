@@ -1,0 +1,50 @@
+# Arena #186 | Improve your technique | hard | 混合泳训练 - 蛙泳
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-186
+arena_ref: 186
+title: 混合泳训练 - 蛙泳
+goal_bucket: technique
+arena_goal: Improve your technique
+level: hard
+theme: 混合泳训练 - 蛙泳
+duration_min: 75
+volume_band_m:
+- 1870
+- 2530
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 700.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 自由选择泳姿；热身游，自由泳姿。交替进行完整泳姿与仅腿部、仅手臂或技术练习的泳段。
+- kind: main
+  repeat: 4
+  distance_m: 75.0
+  stroke: 仰泳
+  equipment: 浮板
+  note: 混合泳；- 第1组：25米蝶泳 - 25米仰泳 - 25米蛙泳 - 第2组：仰泳 - 蛙泳 - 自由泳 - 第3组：蛙泳 - 自由泳 - 蝶泳 -
+    第4组：自由泳 - 蝶泳 - 仰泳
+  rest_s: 15
+- kind: main
+  repeat: 16
+  distance_m: 25.0
+  stroke: 蛙泳
+  equipment: 浮板
+  note: 蛙泳；- 第1组：前15米发力（专注出发，25米终点前保持正常节奏） - 第2组：后15米发力（专注冲刺） - 第3组：25米正常游进 - 第4组：25米
+  rest_s: 15
+- kind: main
+  repeat: 8
+  distance_m: 50.0
+  stroke: 蛙泳
+  drill_type: 踢动
+  equipment: 浮板
+  note: 蛙泳腿；可使用或不使用浮板
+  rest_s: 15
+- kind: cooldown
+  distance_m: 400.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 浮板
+  note: 自由泳手臂

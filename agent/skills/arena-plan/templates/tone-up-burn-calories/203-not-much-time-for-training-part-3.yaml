@@ -1,0 +1,74 @@
+# Arena #203 | Tone Up & Burn Calories | medium | 时间不多？训练也没关系——第三部分
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-203
+arena_ref: 203
+title: 时间不多？训练也没关系——第三部分
+goal_bucket: tone
+arena_goal: Tone Up & Burn Calories
+level: medium
+theme: 时间不多？训练也没关系——第三部分
+duration_min: 50
+volume_band_m:
+- 1530
+- 2070
+content_language: 2
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 选项
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 任意泳姿：腿部练习
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳；轻松游
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 自由泳腿部；使用脚蹼
+  rest_s: 20
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 自由泳腿部；1次用力+1次轻松，使用脚蹼
+  rest_s: 15
+- kind: main
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳；每3次划水呼吸一次，轻松游
+  rest_s: 20
+- kind: main
+  repeat: 8
+  distance_m: 25.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 自由泳腿部；15米用力+10米轻松
+  rest_s: 20
+- kind: main
+  distance_m: 200.0
+  stroke: 仰泳
+  equipment: 脚蹼
+  note: 仰泳；轻松游
+  rest_s: 20
+- kind: main
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 踢动
+  equipment: 脚蹼
+  note: 自由泳腿部；用力游，使用脚蹼
+  rest_s: 30
+- kind: cooldown
+  distance_m: 350.0
+  stroke: 选项
+  equipment: 脚蹼
+  note: 任意泳姿；轻松游
+dryland_note: 陆上热身 x2：手臂旋转：右臂前20次，左臂前20次，右臂后20次，右臂后20次，双臂前10次，双臂后10次。弓步：右腿前10次，左腿前10次，右腿侧10次，左腿侧10次。核心训练（循环）

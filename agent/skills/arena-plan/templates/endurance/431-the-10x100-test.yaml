@@ -1,0 +1,70 @@
+# Arena #431 | Endurance | medium | 10×100测试
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-431
+arena_ref: 431
+title: 10×100测试
+goal_bucket: endurance
+arena_goal: Endurance
+level: medium
+theme: 10×100测试
+duration_min: 75
+volume_band_m:
+- 2125
+- 2875
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 300.0
+  stroke: 选项
+  equipment: 8字板
+  note: 其他；轻松游热身
+- kind: warmup
+  repeat: 4
+  distance_m: 50.0
+  stroke: 仰泳
+  drill_type: 踢动
+  equipment: 8字板
+  note: 仰泳腿
+  rest_s: 20
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳；每50米变换呼吸（3/5/3/7划）
+- kind: main
+  repeat: 6
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；前25米不呼吸，之后游完剩余50米
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由选择泳姿
+- kind: main
+  repeat: 6
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；前三个50米逐步加速，第三段以稳定但非最大强度游进
+  rest_s: 20
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由选择泳姿
+- kind: main
+  distance_m: 100.0
+  stroke: 自由泳
+  drill_type: 分解动作
+  equipment: 8字板
+  note: 自由泳；这是对10×100整体平均速度的测试，排除最快和最慢一次的成绩。需合理分配体力：开始时用力
+  rest_s: 115
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由选择泳姿；测试结束后放松伸展

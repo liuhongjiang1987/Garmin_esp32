@@ -1,0 +1,41 @@
+# Arena #295 | Improve your technique | easy | 提升推进效率（公开水域）- 恢复周，训练2
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-295
+arena_ref: 295
+title: 提升推进效率（公开水域）- 恢复周，训练2
+goal_bucket: technique
+arena_goal: Improve your technique
+level: easy
+theme: 提升推进效率（公开水域）- 恢复周，训练2
+duration_min: 40
+volume_band_m:
+- 1360
+- 1840
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  note: 自由泳/选项；轻松自由游热身
+- kind: main
+  distance_m: 300.0
+  stroke: 自由泳
+  drill_type: 踢动
+  note: 自由泳；交替进行25米快速打腿（无浮板）+ 50米标准游进
+  rest_s: 30
+- kind: main
+  repeat: 4
+  distance_m: 150.0
+  stroke: 自由泳
+  note: 自由泳；尝试以较稳定节奏完成全部150米
+  rest_s: 30
+- kind: main
+  repeat: 4
+  distance_m: 75.0
+  stroke: 混合泳
+  note: 自由泳；交替进行25米混合泳（每组一个泳姿）+ 50米自由泳
+  rest_s: 20
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 选项
+  note: 选项；放松游

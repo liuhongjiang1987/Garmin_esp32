@@ -1,0 +1,56 @@
+# Arena #244 | Improve your technique | medium | 自由泳 - 改善呼吸
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-244
+arena_ref: 244
+title: 自由泳 - 改善呼吸
+goal_bucket: technique
+arena_goal: Improve your technique
+level: medium
+theme: 自由泳 - 改善呼吸
+duration_min: 45
+volume_band_m:
+- 1020
+- 1380
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳选择；自由泳热身
+- kind: warmup
+  repeat: 3
+  distance_m: 100.0
+  stroke: 仰泳
+  equipment: 8字板
+  note: 混合泳；按经典混合泳顺序：1×25米蝶泳 + 1×25米仰泳 + 1×25米蛙泳 + 1×25米自由泳
+  rest_s: 20
+- kind: main
+  repeat: 4
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 分解动作
+  equipment: 8字板
+  note: 单臂自由泳；前25米用右手划水，后25米用左手划水
+  rest_s: 20
+- kind: main
+  repeat: 6
+  distance_m: 50.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳手臂；使用浮板，前25米每3次划水呼吸一次，后25米每5次划水呼吸一次。浮板帮助保持正确姿势，减少阻力
+  rest_s: 20
+- kind: cooldown
+  repeat: 2
+  distance_m: 50.0
+  stroke: 仰泳
+  drill_type: 踢动
+  equipment: 8字板
+  note: 仰泳打腿；休息性游2×50米仰泳打腿
+  rest_s: 30
+- kind: cooldown
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳选择；自由泳放松与舒展

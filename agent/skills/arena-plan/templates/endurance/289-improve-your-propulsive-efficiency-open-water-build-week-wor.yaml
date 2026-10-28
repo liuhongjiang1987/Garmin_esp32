@@ -1,0 +1,54 @@
+# Arena #289 | Endurance | easy | 提升推进效率（公开水域）- 增量周，训练2
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-289
+arena_ref: 289
+title: 提升推进效率（公开水域）- 增量周，训练2
+goal_bucket: endurance
+arena_goal: Endurance
+level: easy
+theme: 提升推进效率（公开水域）- 增量周，训练2
+duration_min: 50
+volume_band_m:
+- 1955
+- 2645
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由选择泳姿；自由泳热身
+- kind: main
+  repeat: 6
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；50米渐进游，从第一段（最慢）到第三段（最快），重复两次
+  rest_s: 20
+- kind: main
+  repeat: 2
+  distance_m: 400.0
+  stroke: 自由泳
+  drill_type: 划水
+  equipment: 8字板
+  note: 自由泳手臂练习；使用浮板 - 第一段每3次划水呼吸一次，第二段每3-5次划水呼吸一次，每50米交替
+  rest_s: 30
+- kind: main
+  repeat: 5
+  distance_m: 100.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；前25米不使用自由泳姿势 + 后75米自由泳
+  rest_s: 20
+- kind: main
+  repeat: 6
+  distance_m: 50.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳；25米快速 + 25米缓慢
+  rest_s: 20
+- kind: cooldown
+  distance_m: 200.0
+  stroke: 自由泳
+  equipment: 8字板
+  note: 自由泳放松游

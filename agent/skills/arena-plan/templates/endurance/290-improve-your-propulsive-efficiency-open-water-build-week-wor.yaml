@@ -1,0 +1,30 @@
+# Arena #290 | Endurance | easy | 提升推进效率（公开水域）- 增强周，训练3
+# 文案已本地化为简体中文；组距来自 Arena 官方 API
+template_id: arena-290
+arena_ref: 290
+title: 提升推进效率（公开水域）- 增强周，训练3
+goal_bucket: endurance
+arena_goal: Endurance
+level: easy
+theme: 提升推进效率（公开水域）- 增强周，训练3
+duration_min: 40
+volume_band_m:
+- 1700
+- 2300
+content_language: 1
+sections:
+- kind: warmup
+  distance_m: 500.0
+  stroke: 混合泳
+  drill_type: 踢动
+  note: 自由泳；交替进行一些热身，包括仅手臂、仅腿部和一些混合泳，这样可以激活所有肌肉！
+- kind: main
+  distance_m: 1000.0
+  stroke: 自由泳
+  equipment: 脚蹼
+  note: 自由泳；以最佳状态游泳，尽量保持稳定。测试结束后记录时间，几周后会用到。
+- kind: cooldown
+  distance_m: 500.0
+  stroke: 仰泳
+  drill_type: 踢动
+  note: 混合泳；放松游，交替自由泳、仰泳、蛙泳，穿插几趟仅腿部、仅手臂的泳姿。在完成1000米测试后，尽量彻底放松。
